@@ -1,0 +1,6 @@
+{
+  "mongodb_connection_string": "mongodb://127.0.0.1:27017",
+  "initial_cogs": [
+    "cogs.cog_test"
+  ]
+}
