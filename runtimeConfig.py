@@ -7,6 +7,11 @@ from flask import Flask
 # From: configReader.py
 mongodb_connection_string: str = None
 
+# Redis connection host and port
+# From: configReader.py
+redis_host: str = "localhost"
+redis_port: int = 6379
+
 # Cogs to load on startup.
 # From: configReader.py
 initial_cogs: list[str] = None
