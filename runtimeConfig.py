@@ -1,5 +1,5 @@
 from flask import Flask
-
+import redis as _redis
 
 # Configuration
 
@@ -9,8 +9,13 @@ mongodb_connection_string: str = None
 
 # Redis connection host and port
 # From: configReader.py
-redis_host: str = "localhost"
-redis_port: int = 6379
+redis_options = {
+    "host": "localhost",
+    "port": 6347
+}
+
+redis:  _redis.Redis = None
+pubsub: _redis.client.PubSub = None # noqa
 
 # Cogs to load on startup.
 # From: configReader.py

@@ -1,13 +1,10 @@
 import threading
 import time
 
+import runtimeConfig
 from .redis import setup as redis_setup
 from .auction_mainloop import fetch_all_auctions
-import redis as _redis
-
-redis: _redis.Redis or None = None
-# noinspection SpellCheckingInspection
-pubsub: _redis.client.PubSub or None = None
+from .profit import find_bin_flips
 
 
 def mainloop():
@@ -19,6 +16,7 @@ def mainloop():
         auctions = data["data"]
         print(f"fetched {len(auctions)} auctions in {round(end - start)} seconds, waiting")
 
+        find_bin_flips()
         last_updated = data["last_updated"] / 1000
         next_update = last_updated + 60
         delta = next_update - time.time()
@@ -28,8 +26,9 @@ def mainloop():
 
 
 def setup():
-    global redis, pubsub  # noqa
     redis, pubsub = redis_setup()  # noqa
+    runtimeConfig.redis = redis
+    runtimeConfig.pubsub = pubsub
     thread: threading.Thread = threading.Thread(target=mainloop)
     thread.setDaemon(True)
     thread.start()

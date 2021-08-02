@@ -9,5 +9,6 @@ redis~=3.5.3
 hiredis
 
 aiohttp~=3.7.4.post0
-orjson~=3.6.0
+nbtlib~=1.12.0
 requests~=2.26.0
+ujson~=4.0.2
