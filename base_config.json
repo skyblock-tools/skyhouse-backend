@@ -2,6 +2,7 @@
   "mongodb_connection_string": "mongodb://127.0.0.1:27017",
   "initial_cogs": [
     "cogs.core",
+    "cogs.discord_bot",
     "cogs.api"
   ]
 }

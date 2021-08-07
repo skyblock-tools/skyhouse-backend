@@ -47,7 +47,7 @@ def fetch_all_auctions() -> dict:
 
     to_process = []
     for auction in auctions:
-        if f'auction:{auction["uuid"]}'.encode() not in existing:
+        if f'auction:{auction["uuid"]}' not in existing:
             to_process.append(auction)
 
     print(f"processing, discarded {len(auctions) - len(to_process)} existing entries")

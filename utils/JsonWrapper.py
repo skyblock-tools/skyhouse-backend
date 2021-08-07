@@ -23,6 +23,12 @@ class JsonWrapper(dict):
         except KeyError as e:
             raise AttributeError() from e
 
+    def __delattr__(self, item):
+        try:
+            del self[item]
+        except KeyError as e:
+            raise AttributeError() from e
+
     def to_dict(self):
 
         temp = JsonWrapper(self)

@@ -3,7 +3,7 @@ import runtimeConfig
 
 
 def setup() -> [_redis.Redis, _redis.client.PubSub]:
-    redis = _redis.Redis(**runtimeConfig.redis_options)
+    redis = _redis.Redis(decode_responses=True, **runtimeConfig.redis_options)
 
     # noinspection SpellCheckingInspection
     pubsub = redis.pubsub()
