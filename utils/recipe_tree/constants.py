@@ -1,0 +1,1 @@
+URL_TO_FILES = "https://raw.githubusercontent.com/Moulberry/NotEnoughUpdates-REPO/master/items/"
