@@ -3,6 +3,8 @@ import multiprocessing.pool
 import ujson
 import concurrent.futures
 import requests
+from loguru import logger
+
 import runtimeConfig
 from .auction import parse_auction
 
@@ -11,7 +13,7 @@ auction_base_url = "https://api.hypixel.net/skyblock/auctions"
 
 def process_auction(x):
     auction_obj = parse_auction(x)
-    mapping = {k: v if type(v) in [str, int, float] else ujson.dumps(v) for k, v in x.items()}
+    mapping = {k: v if type(v) in [str, int, float] else ujson.dumps(v) for k, v in auction_obj.items()}
     return [auction_obj, mapping]
 
 
@@ -44,44 +46,47 @@ def fetch_all_auctions() -> dict:
     pool = multiprocessing.pool.Pool(processes=10)
 
     existing = set(runtimeConfig.redis.keys("auction:*"))
+    existing_bins = set(runtimeConfig.redis.keys("bin:*"))
 
     to_process = []
     for auction in auctions:
-        if f'auction:{auction["uuid"]}' not in existing:
+        if f"auction:{auction['uuid']}" in existing:
+            if int(runtimeConfig.redis.hget(f"auction:{auction['uuid']}", "price")) not in (auction['highest_bid_amount'], auction['starting_bid']):
+                to_process.append(auction)
+        elif f'bin:{auction["uuid"]}' not in existing_bins:
             to_process.append(auction)
 
-    print(f"processing, discarded {len(auctions) - len(to_process)} existing entries")
+    logger.debug(f"processing, discarded {len(auctions) - len(to_process)} existing entries")
     processed = pool.map(process_auction, to_process)
     pool.close()
-
-    print("postprocessing new auctions")
 
     total = len(processed)
     for i, chunk in enumerate(processed):
         data, mapping = chunk
-        pipeline.hset(f"auction:{mapping['uuid']}", mapping=mapping)
-        pipeline.zadd(f"bins:{data.internal_name}", mapping={mapping["uuid"]: mapping["starting_bid"]})
+        _type = "bin" if data.bin else "auction"
+        pipeline.hset(f"{_type}:{mapping['uuid']}", mapping=mapping)
+        if mapping["bin"]:
+            pipeline.zadd(f"bins:{data.internal_name}", mapping={mapping["uuid"]: mapping["price"]})
 
-    print(f"inserting {total} auctions")
+    logger.debug(f"inserting {total} auctions")
     pipeline.execute()
-
-    print("fetching ended auctions")
 
     ended = fetch_page("https://api.hypixel.net/skyblock/auctions_ended")["auctions"]
 
     pool = multiprocessing.pool.Pool(processes=10)
 
-    print("processing ended auctions")
+    logger.debug("processing ended auctions")
     processed = pool.map(process_auction, ended)
     pool.close()
 
     total = len(processed)
     for i, chunk in enumerate(processed):
         data, mapping = chunk
-        pipeline.delete(f"auction:{mapping['auction_id']}")
+        _type = "bin" if data.bin else "auction"
+        pipeline.delete(f"{_type}:{mapping['auction_id']}")
         pipeline.zrem(f"bins:{data.internal_name}", mapping['auction_id'])
 
-    print(f"removing {total} ended auctions")
+    logger.debug(f"removing {total} ended auctions")
     pipeline.execute()
 
     return {

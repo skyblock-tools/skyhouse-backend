@@ -4,6 +4,7 @@ import flask
 
 import runtimeConfig
 from cogs.api.middleware.auth_ratelimit import auth_ratelimit
+from utils import auction_filter
 
 
 def setup():
@@ -12,6 +13,7 @@ def setup():
     @app.route('/flips')
     @auth_ratelimit
     async def flips(session):
+        _filter = auction_filter.parse_filter(flask.request.args)
         keys = runtimeConfig.redis.keys("binflip:*")
         pipeline = runtimeConfig.redis.pipeline()
         for key in keys:
@@ -19,7 +21,7 @@ def setup():
         result = pipeline.execute()
         _flips = {}
         for x in result:
-            _flips[x['uuid']] = {"profit": x['profit'], "data": None}
+            _flips[x['uuid']] = {"profit": x['profit'], "quantity": x["quantity"]}
         pipeline = runtimeConfig.redis.pipeline()
         for flip in _flips:
             pipeline.hgetall(f"auction:{flip}")
@@ -27,7 +29,8 @@ def setup():
         for x in result:
             if not x:
                 continue
-            _flips[x['uuid']]['data'] = x
+            if auction_filter.include(_flips[x['uuid']] | x, _filter):
+                _flips[x['uuid']].update(x)
         return {"flips": _flips, "refresh_session": session.active}
 
     runtimeConfig.app = app

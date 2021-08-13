@@ -1,9 +1,12 @@
 import gzip
+import re
+
 import nbtlib
 import io
 import base64
 import ujson
 
+from utils import constants
 from utils.JsonWrapper import JsonWrapper
 
 
@@ -41,9 +44,41 @@ def decode_nbt(item_bytes: str) -> dict:
             "i"][0]
 
 
+auction_attrs = [
+    "end",
+    "item_name",
+    "item_bytes",
+    "tier",
+    "uuid",
+]
+
+
 def parse_auction(auction: dict) -> JsonWrapper:
     _nbt = decode_nbt(auction["item_bytes"])
-    return JsonWrapper.from_dict({
+    output = JsonWrapper.from_dict({
         "nbt": _nbt,
         "internal_name": get_internal_name_from_nbt(_nbt),
     })
+    for attr in auction_attrs:
+        output[attr] = auction[attr]
+    output.pet = "[Lvl" in output.item_name
+    output.candy = -1
+    if output.pet:
+        output.candy = int(re.search(r"(\d+)/(\d+)\) Pet Candy Used", auction["item_lore"]).group(1)) \
+            if " Pet Candy Used" in auction["item_lore"] else 0
+        if "Tier Boost" in auction["item_lore"]:
+            output.tier = constants.Skyblock.TIERS[constants.Skyblock.TIERS.index(output.tier.lower()) + 1]
+
+    output.bin = "bin" in auction and auction["bin"]
+    output.recomb = "§k" in auction["item_lore"]
+    if output.recomb:
+        output.tier = constants.Skyblock.TIERS[constants.Skyblock.TIERS.index(output.tier.lower()) - 1]
+    output.carpentry = "Furniture" in auction["item_lore"]
+    output.skin = "Skin" in output.item_name
+    output.soul = "Cake Soul" in auction["item_lore"]
+    output.price = auction["highest_bid_amount"] if not output.bin and auction["highest_bid_amount"] != 0\
+        else auction["starting_bid"]
+
+    return output
+
+
