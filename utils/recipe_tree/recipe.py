@@ -61,7 +61,7 @@ def find_item_recipe_tree(item_name):
                 recipe_items_basic[name] = int(amount)
 
         # Stop infinate loops with items and their block forms
-        if len(recipe_items_basic.keys()) == 1:
+        if len(recipe_items_basic.keys()) == 1 and recipe_items_basic[recipe_items_basic.keys()[0]] == 1:
             return Item(item_name)
         
         recipe_items = {}
