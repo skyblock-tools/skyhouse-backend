@@ -32,7 +32,7 @@ default_filter = {
 def parse_item_filter(_filter: int):
     output = []
     for i, func in enumerate(item_filters):
-        if (2 ** (i + 1)) & _filter != 0:
+        if (2 ** i) & _filter != 0:
             output.append(func)
     return output
 
