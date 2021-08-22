@@ -71,6 +71,8 @@ def include(auction, _filter):
     name = _filter.regex is None or re.search(_filter.regex, auction.item_name)
     item_filter = all(map(lambda x: x(auction), _filter.item_filter))
 
+    quantity = int(auction.quantity) > _filter.min_quantity < int(auction.max_quantity)
+
     tier = False
     inside_tiers = False
     for _tier in constants.Skyblock.TIERS:
@@ -84,4 +86,4 @@ def include(auction, _filter):
     not_static_blacklist = auction.carpentry == "false" and (not auction.internal_name.startswith("ENCHANTED_BOOK") or
                                                              len(auction.internal_name.split(';')) < 2)
 
-    return price_range and profit and time and name and item_filter and tier and not_static_blacklist
+    return price_range and profit and time and name and item_filter and quantity and tier and not_static_blacklist

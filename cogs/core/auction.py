@@ -71,6 +71,7 @@ def parse_auction(auction: dict) -> JsonWrapper:
     })
     for attr in auction_attrs:
         output[attr] = auction.get(attr, None)
+    output.tier = output.tier.upper()
     output.pet = "[Lvl" in output.item_name
     output.candy = -1
     if output.pet:
