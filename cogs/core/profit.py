@@ -1,18 +1,40 @@
 import runtimeConfig
 
 
-def find_bin_flips():
+def find_flips():
     items = runtimeConfig.redis.keys("bins:*")
+    pipeline = runtimeConfig.redis.pipeline()
     for item in items:
-        l_bins = runtimeConfig.redis.zrange(item, 0, 5, withscores=True)
-        if len(l_bins) == 5:
+        l_bins = runtimeConfig.redis.zrange(item, 0, -1, withscores=True)
+        flip = False
+        if len(l_bins) >= 5:
+
+            auctions = runtimeConfig.redis.zrange(f"auctions:{item[5:]}", 0, 5, withscores=True)
+            for auction in auctions:
+                profit = l_bins[0][1] - auction[1]
+                if profit > 100_000:
+                    runtimeConfig.redis.publish("auctionflip:profit", f"{auction[0]}:{round(profit)}")
+                    pipeline.hset(f"auctionflip:{item[9:]}", mapping={
+                        "uuid": auction[0],
+                        "profit": round(profit),
+                        "quantity": len(l_bins),
+                        "type": "auction",
+                    })
+                    flip = True
+
             profit = l_bins[1][1] - l_bins[0][1]
             if profit > 100_000:
-                runtimeConfig.redis.publish("binflip:profit", f"{l_bins[0][0]}:{round(profit)}")
-                runtimeConfig.redis.hset(f"binflip:{item[5:]}", mapping={
+                pipeline.publish("binflip:profit", f"{l_bins[0][0]}:{round(profit)}")
+                pipeline.hset(f"binflip:{item[5:]}", mapping={
                     "uuid": l_bins[0][0],
-                    "profit": profit
+                    "profit": round(profit),
+                    "quantity": len(l_bins),
+                    "type": "bin",
                 })
                 continue
-        runtimeConfig.redis.delete(f"flip:{item[5:]}")
+        if not flip:
+            pipeline.delete(f"*flip:{item[5:]}")
+    pipeline.execute()
+
+
 

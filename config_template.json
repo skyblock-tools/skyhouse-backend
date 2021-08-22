@@ -1,0 +1,26 @@
+{
+  "mongodb_connection_string": "mongodb://127.0.0.1:27017",
+  "mongodb_database_name": "skyhouse",
+  "mongodb_user_collection_name": "users",
+  "redis_options": {
+    "unix_socket_path": "/etc/redis/redis.sock",
+    "host": "localhost",
+    "port": 6347
+  },
+  "discord_oauth": {
+    "client_id": 0,
+    "client_secret": "",
+    "redirect_uri": ""
+  },
+  "discord_guild_id": 0,
+  "webhooks": {
+    "bin": "",
+    "auction": ""
+  },
+  "cors_host": "*",
+  "initial_cogs": [
+    "cogs.core",
+    "cogs.discord_bot",
+    "cogs.api"
+  ]
+}
