@@ -102,6 +102,7 @@ display_props = [
     "price",
     "end",
     "lore",
+    "tier",
 ]
 
 

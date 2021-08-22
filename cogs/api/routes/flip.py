@@ -47,6 +47,8 @@ def setup(app: flask.Flask):
             if tmp.type == "auction" and tmp.end / 1000 - time.time() > 300:
                 continue
             if auction_filter.include(tmp, _filter):
-                output.append(get_api_output(_flips[x["uuid"]] | x))
+                out = JsonWrapper.from_dict(get_api_output(_flips[x["uuid"]] | x))
+                out.parse_str_ints()
+                output.append(out.to_dict())
         return res.json({"flips": output, "refresh_session": not session.active})
 
