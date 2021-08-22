@@ -23,7 +23,7 @@ def setup(app: flask.Flask):
 
         doc = runtimeConfig.mongodb_user_collection.find_one({token_type: token})
         if not doc:
-            return res.json(code=403)
+            return res.json(code=401)
 
         if doc["web_refresh_token_generated"] < 0 and doc["web_refresh_token_generated"] + time.time() < 15:  # noqa
             return res.json(code=403)

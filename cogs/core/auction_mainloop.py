@@ -71,7 +71,7 @@ def fetch_all_auctions() -> dict:
     total = len(processed)
     for i, chunk in enumerate(processed):
         data, mapping = chunk
-        if data.end < time.time():
+        if data.end < time.time() * 1000:
             delete_auction(pipeline, data, "uuid")
         _type = "bin" if data.bin else "auction"
         pipeline.hset(f"{_type}:{mapping['uuid']}", mapping=mapping)

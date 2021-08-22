@@ -42,7 +42,7 @@ def parse_item_filter(_filter: int):
     return output
 
 
-def parse_filter(json: dict, priv=True) -> JsonWrapper:
+def parse_filter(json: dict, priv=True, level=1) -> JsonWrapper:
     output = {}
     for key in default_filter:
         if priv or key in no_priv_allowed_filters:
@@ -56,7 +56,8 @@ def parse_filter(json: dict, priv=True) -> JsonWrapper:
         else:
             output[key] = default_filter[key]
     output["item_filter"] = parse_item_filter(output["item_filter"]) if priv else []
-    output['limit'] = min(output['limit'], 200 if priv else 100)
+    if level != 10:
+        output['limit'] = min(output['limit'], 200 if priv else 100)
     return JsonWrapper.from_dict(output)
 
 
@@ -80,4 +81,7 @@ def include(auction, _filter):
         if _tier.casefold() == _filter.max_tier.casefold():
             break
 
-    return price_range and profit and time and name and item_filter and tier
+    not_static_blacklist = auction.carpentry == "false" and (not auction.internal_name.startswith("ENCHANTED_BOOK") or
+                                                             len(auction.internal_name.split(';')) < 2)
+
+    return price_range and profit and time and name and item_filter and tier and not_static_blacklist

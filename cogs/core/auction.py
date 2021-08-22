@@ -28,13 +28,12 @@ def get_internal_name_from_nbt(nbt):
             tiers = ["COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "MYTHIC", "SPECIAL"]
             internal_name += f";{tiers.index(tier)}"
         elif internal_name == "ENCHANTED_BOOK":
-            enchants = []
             try:
                 enchants = ea["enchantments"]
             except KeyError:
                 return None
             for enchant_name in enchants:
-                internal_name += f"{enchant_name.upper()};{enchants[enchant_name]}"
+                internal_name += f";{enchant_name.upper()}:{enchants[enchant_name]}"
     return internal_name
 
 

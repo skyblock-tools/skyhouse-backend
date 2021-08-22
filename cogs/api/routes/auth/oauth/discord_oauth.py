@@ -86,7 +86,8 @@ def setup(app: flask.Flask):
                 privilege = max(privilege, current_user.get("privilege_level", 0))
                 rate_limit = max(API.RATE_LIMITS[privilege], rate_limit)
             runtimeConfig.mongodb_user_collection.update_one(current_user, {"$set": {
-                "web_refresh_token_generated": time.time(),
+                "web_refresh_token_generated": round(time.time()),
+                "web_refresh_token": web_refresh_token,
                 "privilege_level": privilege,
                 "ratelimit_minute": rate_limit,
                 "session_token": access_token,

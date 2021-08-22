@@ -18,7 +18,7 @@ def setup(app: flask.Flask):
     def flip_endpoint(session):
         if session.privilege_level < 1:
             return res.json(code=403)
-        _filter = auction_filter.parse_filter(flask.request.args, priv=session.privilege_level > 1)
+        _filter = auction_filter.parse_filter(flask.request.args, priv=session.privilege_level > 1, level=session.privilege_level)
         _filter.parse_str_ints()
         if session.privilege_level < 2:
             _filter.bin_max_profit = 500_000
@@ -36,7 +36,7 @@ def setup(app: flask.Flask):
             pipeline.hgetall(f"{_flips[flip]['type']}:{flip}")
         result = pipeline.execute()
         output = []
-        random.shuffle(result)
+        result.sort(key=lambda z: -1 if "uuid" not in z else int(_flips[z['uuid']]['profit']), reverse=True)
         for x in result:
             if not x:
                 continue
