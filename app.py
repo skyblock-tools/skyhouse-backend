@@ -1,18 +1,21 @@
 import importlib
 import os
 
+import loguru
+
 import runtimeConfig
 import configReader
-from utils import logging
+from utils import _logging
 from loguru import logger
 
-CONFIG_NAME: str = "base_config.json"
+CONFIG_NAME = "config.json"
 
 configReader.read_config(CONFIG_NAME)
 
 
+@loguru.logger.catch(Exception)
 def main():
-    logging.init_logging()
+    _logging.init_logging()
     runtimeConfig.loaded_cogs = {}
     for cog_path in runtimeConfig.initial_cogs:
         logger.info(f"loading {cog_path}")

@@ -1,39 +1,42 @@
-import asyncio
 import threading
+import time
+
 import flask
+from flask import request
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+import importlib
+from loguru import logger
 
 import runtimeConfig
 from cogs.api.middleware.auth_ratelimit import auth_ratelimit
-from utils import auction_filter
 
 
 def setup():
-    app: flask.Flask = flask.Flask(__name__)
 
-    @app.route('/flips')
-    @auth_ratelimit
-    async def flips(session):
-        _filter = auction_filter.parse_filter(flask.request.args)
-        keys = runtimeConfig.redis.keys("binflip:*")
-        pipeline = runtimeConfig.redis.pipeline()
-        for key in keys:
-            pipeline.hgetall(key)
-        result = pipeline.execute()
-        _flips = {}
-        for x in result:
-            _flips[x['uuid']] = {"profit": x['profit'], "quantity": x["quantity"]}
-        pipeline = runtimeConfig.redis.pipeline()
-        for flip in _flips:
-            pipeline.hgetall(f"auction:{flip}")
-        result = pipeline.execute()
-        for x in result:
-            if not x:
-                continue
-            if auction_filter.include(_flips[x['uuid']] | x, _filter):
-                _flips[x['uuid']].update(x)
-        return {"flips": _flips, "refresh_session": session.active}
+    api_app: flask.Flask = flask.Flask(__name__)
+    app = DispatcherMiddleware(flask.Flask("dummy_app"), {
+        "/api": api_app,
+    })
+
+    @api_app.after_request
+    def log_requests(response):
+        timestamp = time.strftime("[%d-%b-%Y %H:%M]")
+        logger.info(f"{timestamp} {request.remote_addr} : {request.method} @ {request.url} | {response.status}")
+        return response
+
+    routes = ['flip', 'auth.token_exchange', 'auth.delete_session', 'auth.info', 'auth.oauth.discord_oauth']
+
+    for route in routes:
+        module = importlib.import_module(f"cogs.api.routes.{route}")
+        # noinspection PyUnresolvedReferences
+        module.setup(api_app)
 
     runtimeConfig.app = app
-    thread: threading.Thread = threading.Thread(target=app.run)
+
+    def start():
+        from waitress import serve
+        serve(app, port=8000)
+
+    thread: threading.Thread = threading.Thread(target=start)
     thread.setDaemon(True)
     thread.start()

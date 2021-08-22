@@ -1,4 +1,5 @@
 import multiprocessing.pool
+import time
 
 import ujson
 import concurrent.futures
@@ -6,18 +7,25 @@ import requests
 from loguru import logger
 
 import runtimeConfig
-from .auction import parse_auction
+from utils import misc
+from .auction import parse_auction, parse_ended_auction
 
 auction_base_url = "https://api.hypixel.net/skyblock/auctions"
+last_loop_run = 0
 
 
 def process_auction(x):
     auction_obj = parse_auction(x)
-    mapping = {k: v if type(v) in [str, int, float] else ujson.dumps(v) for k, v in auction_obj.items()}
+    mapping = misc.redis_json_dump(auction_obj)
     return [auction_obj, mapping]
 
 
+def process_ended_auction(x):
+    return parse_ended_auction(x)
+
+
 def fetch_all_auctions() -> dict:
+    global last_loop_run
     pages = []
 
     def fetch_page(url=auction_base_url, page: int = None):
@@ -51,7 +59,7 @@ def fetch_all_auctions() -> dict:
     to_process = []
     for auction in auctions:
         if f"auction:{auction['uuid']}" in existing:
-            if int(runtimeConfig.redis.hget(f"auction:{auction['uuid']}", "price")) not in (auction['highest_bid_amount'], auction['starting_bid']):
+            if len(auction['bids']) > 0 and auction['bids'][-1]['timestamp'] > last_loop_run:
                 to_process.append(auction)
         elif f'bin:{auction["uuid"]}' not in existing_bins:
             to_process.append(auction)
@@ -63,10 +71,11 @@ def fetch_all_auctions() -> dict:
     total = len(processed)
     for i, chunk in enumerate(processed):
         data, mapping = chunk
+        if data.end < time.time():
+            delete_auction(pipeline, data, "uuid")
         _type = "bin" if data.bin else "auction"
         pipeline.hset(f"{_type}:{mapping['uuid']}", mapping=mapping)
-        if mapping["bin"]:
-            pipeline.zadd(f"bins:{data.internal_name}", mapping={mapping["uuid"]: mapping["price"]})
+        pipeline.zadd(f"{_type}s:{data.internal_name}", mapping={mapping["uuid"]: f'{mapping["price"]}'})
 
     logger.debug(f"inserting {total} auctions")
     pipeline.execute()
@@ -76,20 +85,24 @@ def fetch_all_auctions() -> dict:
     pool = multiprocessing.pool.Pool(processes=10)
 
     logger.debug("processing ended auctions")
-    processed = pool.map(process_auction, ended)
+    processed = pool.map(process_ended_auction, ended)
     pool.close()
 
     total = len(processed)
-    for i, chunk in enumerate(processed):
-        data, mapping = chunk
-        _type = "bin" if data.bin else "auction"
-        pipeline.delete(f"{_type}:{mapping['auction_id']}")
-        pipeline.zrem(f"bins:{data.internal_name}", mapping['auction_id'])
+    for i, data in enumerate(processed):
+        delete_auction(pipeline, data)
 
     logger.debug(f"removing {total} ended auctions")
     pipeline.execute()
 
+    last_loop_run = time.time()
     return {
         "data": auctions,
         "last_updated": last_updated,
     }
+
+
+def delete_auction(redis_or_pipeline, data, uuid="auction_id"):
+    _type = "bin" if data.bin else "auction"
+    redis_or_pipeline.delete(f"{_type}:{data[uuid]}", f"{_type}flip:{data[uuid]}")
+    redis_or_pipeline.zrem(f"bins:{data.internal_name}", data[uuid])

@@ -18,6 +18,10 @@ class Filter(Constant):
     DEFAULT_MIN_PROFIT = 100_000
 
 
+class API(Constant):
+    RATE_LIMITS = [0, 6, 15, 30, 60, 90, 120, 120, 120, 120, 120, ]
+
+
 # noinspection SpellCheckingInspection
 class Skyblock(Constant):
     TIERS = ("common", "uncommon", "rare", "epic", "legendary", "mythic", "supreme", "special", "very_special")
