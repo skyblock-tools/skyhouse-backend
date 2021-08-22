@@ -66,7 +66,7 @@ def setup(app: flask.Flask):
 
         in_guild = False
         for guild in guilds:
-            if guild["id"] == runtimeConfig.discord_guild_id:
+            if guild["id"] == str(runtimeConfig.discord_guild_id):
                 in_guild = True
                 break
         privilege = 1 if in_guild else 0
