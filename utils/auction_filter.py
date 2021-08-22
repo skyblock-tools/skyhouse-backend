@@ -55,10 +55,7 @@ def parse_filter(json: dict, priv=True) -> JsonWrapper:
                 output[key] = default_filter[key]
         else:
             output[key] = default_filter[key]
-    if "item_filter" in json and isinstance(json["item_filter"], int) and priv:
-        output["item_filter"] = parse_item_filter(int(json["item_filter"]))
-    else:
-        output["item_filter"] = []
+    output["item_filter"] = parse_item_filter(output["item_filter"]) if priv else []
     output['limit'] = min(output['limit'], 200 if priv else 100)
     return JsonWrapper.from_dict(output)
 
