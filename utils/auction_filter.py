@@ -71,7 +71,7 @@ def include(auction, _filter):
     name = _filter.regex is None or re.search(_filter.regex, auction.item_name)
     item_filter = all(map(lambda x: x(auction), _filter.item_filter))
 
-    quantity = int(auction.quantity) > _filter.min_quantity < int(auction.max_quantity)
+    quantity = _filter.min_quantity <= int(auction.quantity) <= _filter.max_quantity
 
     tier = False
     inside_tiers = False
