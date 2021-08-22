@@ -5,10 +5,10 @@ from utils.JsonWrapper import JsonWrapper
 from utils import constants
 
 item_filters = [
-    lambda auction: not auction.skin,  # remove skins
-    lambda auction: not auction.soul,  # remove cake souls
-    lambda auction: not auction.pet,  # remove pets
-    lambda auction: not auction.recomb,  # remove recombs
+    lambda auction: auction.skin == "false",  # remove skins
+    lambda auction: auction.soul == "false",  # remove cake souls
+    lambda auction: auction.pet == "false",  # remove pets
+    lambda auction: auction.recomb == "false",  # remove recombs
 ]
 
 no_priv_allowed_filters = [

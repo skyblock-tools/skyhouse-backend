@@ -13,13 +13,13 @@ from ....utils import cors, res
 API_ENDPOINT = 'https://discord.com/api/v8'
 
 
-def exchange_code(code):
+def exchange_code(code, redirect_uri):
     data = {
         'client_id': runtimeConfig.discord_oauth["client_id"],
         'client_secret': runtimeConfig.discord_oauth["client_secret"],
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': runtimeConfig.discord_oauth["redirect_uri"]
+        'redirect_uri': redirect_uri,
     }
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -52,9 +52,10 @@ def setup(app: flask.Flask):
     def discord_oauth_endpoint():
         query = flask.request.args
         code = query.get("code", None)
+        redirect_uri = query.get("redirect_uri", runtimeConfig.discord_oauth["redirect_uri"])
         if code is None:
             return res.json(code=401)
-        discord_access_token = exchange_code(code).get("access_token", None)
+        discord_access_token = exchange_code(code, redirect_uri).get("access_token", None)
         if discord_access_token is None:
             return res.json(code=403)
         user, guilds = get_user(discord_access_token), get_user_guilds(discord_access_token)
