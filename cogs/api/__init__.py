@@ -1,8 +1,6 @@
 import threading
-import time
 
 import flask
-from flask import request
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 import importlib
 from loguru import logger
@@ -17,12 +15,6 @@ def setup():
     app = DispatcherMiddleware(flask.Flask("dummy_app"), {
         "/api": api_app,
     })
-
-    @api_app.after_request
-    def log_requests(response):
-        timestamp = time.strftime("[%d-%b-%Y %H:%M]")
-        logger.info(f"{timestamp} {request.remote_addr} : {request.method} @ {request.url} | {response.status}")
-        return response
 
     routes = ['flip', 'auth.token_exchange', 'auth.delete_session', 'auth.info', 'auth.oauth.discord_oauth']
 
