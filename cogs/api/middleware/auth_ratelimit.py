@@ -42,7 +42,8 @@ def auth_ratelimit(ratelimit=True):  # noqa
                     runtimeConfig.redis.delete(f"session:{token}")  # noqa
                     session.active = False
 
-                runtimeConfig.redis.hset(f"session:{token}", mapping=misc.redis_json_dump(session.to_dict()))
+                if session.active:
+                    runtimeConfig.redis.hset(f"session:{token}", mapping=misc.redis_json_dump(session.to_dict()))
 
             return func(session, *args, **kwargs)
 
