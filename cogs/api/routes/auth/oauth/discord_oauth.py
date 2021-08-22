@@ -97,9 +97,9 @@ def setup(app: flask.Flask):
             "privilege_level": privilege,
             "ratelimit": rate_limit, # noqa
             "uses_minute": 0,
-            "minute_start": time.time(),
+            "minute_start": round(time.time()),
             "total_uses": 0,
-            "created": time.time(),
+            "created": round(time.time()),
         }
         runtimeConfig.redis.hset(f"session:{access_token}", mapping=misc.redis_json_dump(session))
         return res.json({
