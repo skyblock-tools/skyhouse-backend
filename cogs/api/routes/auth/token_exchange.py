@@ -30,7 +30,6 @@ def setup(app: flask.Flask):
 
         if doc["session_token"] is not None:
             current_session = runtimeConfig.redis.hgetall(f"session:{doc['session_token']}")
-            print(current_session)
             if current_session and "uses_minute" in current_session and int(current_session["uses_minute"]) > 1 and int(
                     current_session["minute_start"]) + 60 > time.time():
                 return res.json(code=403)
