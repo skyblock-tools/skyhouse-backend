@@ -35,7 +35,7 @@ def setup(app: flask.Flask):
         for flip in _flips:
             pipeline.hgetall(f"{_flips[flip]['type']}:{flip}")
         result = pipeline.execute()
-        output = {}
+        output = []
         random.shuffle(result)
         for x in result:
             if not x:
@@ -47,6 +47,6 @@ def setup(app: flask.Flask):
             if tmp.type == "auction" and tmp.end / 1000 - time.time() > 300:
                 continue
             if auction_filter.include(tmp, _filter):
-                output[x['uuid']] = get_api_output(_flips[x["uuid"]] | x)
+                output.append(get_api_output(_flips[x["uuid"]] | x))
         return res.json({"flips": output, "refresh_session": not session.active})
 
