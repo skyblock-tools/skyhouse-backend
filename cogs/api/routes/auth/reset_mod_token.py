@@ -1,6 +1,7 @@
 import flask
 import runtimeConfig
 from cogs.api.middleware.auth_ratelimit import auth_ratelimit
+from cogs.api.utils import cors
 from utils.misc import generate_token
 
 
@@ -8,6 +9,7 @@ def setup(app: flask.Flask):
 
     @app.route('/auth/token/reset', methods=["POST", "DELETE"])
     @auth_ratelimit(ratelimit=False)
+    @cors.site_only
     def auth_reset_endpoint(session):
         discord_id = session.discord_user_id
         new = generate_token()
