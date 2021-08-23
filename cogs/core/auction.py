@@ -37,6 +37,33 @@ def get_internal_name_from_nbt(nbt):
     return internal_name
 
 
+def get_item_head_url_from_nbt(nbt):
+    try:
+        if "SkullOwner" in nbt["tag"]:
+            return "https://mc-heads.net/head/" + \
+                   ujson.loads(base64.b64decode(nbt["tag"]["SkullOwner"]["Properties"]["textures"][0]["Value"]))[
+                       "textures"][
+                       "SKIN"]['url'].split("/")[4]
+        else:
+            return None
+    except Exception:
+        return None
+
+
+def get_display_name_from_nbt(nbt):
+    try:
+        return nbt["tag"]["display"]["Name"]
+    except Exception:
+        return None
+
+
+def get_bare_skyblock_id_from_nbt(nbt):
+    try:
+        return nbt["tag"]["ExtraAttributes"]["id"]
+    except Exception:
+        return None
+
+
 def decode_nbt(item_bytes: str) -> dict:
     return \
         nbtlib.File.from_fileobj(gzip.GzipFile(fileobj=io.BytesIO(base64.b64decode(item_bytes)))).unpack(json=True)[''][
@@ -67,7 +94,10 @@ def parse_auction(auction: dict) -> JsonWrapper:
     output = JsonWrapper.from_dict({
         "nbt": _nbt,
         "internal_name": get_internal_name_from_nbt(_nbt),
-        "lore": auction["item_lore"]
+        "lore": auction["item_lore"],
+        "display_name": get_display_name_from_nbt(_nbt),
+        "skyblock_id": get_bare_skyblock_id_from_nbt(_nbt),
+        "head_url":  get_item_head_url_from_nbt(_nbt) if "SkullOwner" in _nbt["tag"] else "",
     })
     for attr in auction_attrs:
         output[attr] = auction.get(attr, None)
@@ -104,6 +134,9 @@ display_props = [
     "end",
     "lore",
     "tier",
+    "display_name",
+    "skyblock_id",
+    "head_url",
 ]
 
 
