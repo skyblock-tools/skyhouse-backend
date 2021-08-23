@@ -103,7 +103,7 @@ def fetch_all_auctions() -> dict:
 
     delete_pipeline.execute()
 
-    logger.debug("beginning cull")
+    logger.debug("culling removed auctions")
 
     uuids = set([z["uuid"] for z in auctions])
     to_remove = []
@@ -121,8 +121,6 @@ def fetch_all_auctions() -> dict:
     for item in to_remove:
         delete_auction(pipeline, item)
     pipeline.execute()
-
-    logger.debug("finished cull")
 
     logger.debug(f"inserting {total} auctions")
     pipeline.execute()

@@ -6,9 +6,10 @@ from utils import constants
 
 item_filters = [
     lambda auction: auction.skin == "false",  # remove skins
-    lambda auction: auction.soul == "false",  # remove cake souls
     lambda auction: auction.pet == "false",  # remove pets
     lambda auction: auction.recomb == "false",  # remove recombs
+    lambda auction: auction.soul == "false",  # remove cake souls
+    lambda auction: not auction.internal_name.startswith("ENCHANTED_BOOK"),  # remove enchanted books
 ]
 
 no_priv_allowed_filters = [
