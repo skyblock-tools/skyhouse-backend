@@ -75,12 +75,16 @@ def setup(app: flask.Flask):
             payload = payloads.user_payload(user["id"], privilege_level=privilege, ratelimit_minute=rate_limit,
                                             web_refresh_token=web_refresh_token, session_token=access_token)
         else:
-            if current_user["web_refresh_token_generated"] < 0 and current_user["web_refresh_token_generated"] + time.time() < 15: # noqa
+            # noinspection DuplicatedCode
+            if current_user["web_refresh_token_generated"] < 0 and \
+                    current_user["web_refresh_token_generated"] + time.time() < 15:
                 return res.json(code=403)
             if current_user["session_token"] is not None:
-                uses_minute_str = runtimeConfig.redis.hget(f"session:{current_user['session_token']}", "uses_minute")
-                if uses_minute_str is not None and int(uses_minute_str) > 1:
+                current_session = runtimeConfig.redis.hgetall(f"session:{current_user['session_token']}")
+                if current_session and "uses_minute" in current_session and int(
+                        current_session["uses_minute"]) > 1 and int(current_session["minute_start"]) + 60 > time.time():
                     return res.json(code=403)
+
             rate_limit = current_user.get("ratelimit_minute", 0)
             if in_guild:
                 privilege = max(privilege, current_user.get("privilege_level", 0))
@@ -96,7 +100,7 @@ def setup(app: flask.Flask):
             "discord_user_id": user["id"],
             "refresh_token": web_refresh_token,
             "privilege_level": privilege,
-            "ratelimit": rate_limit, # noqa
+            "ratelimit": rate_limit,  # noqa
             "uses_minute": 0,
             "minute_start": round(time.time()),
             "total_uses": 0,
@@ -108,5 +112,4 @@ def setup(app: flask.Flask):
             "privilege_level": privilege,
             "refresh_token": web_refresh_token,
             "discord_info": user.to_dict(),
-               })
-
+        })
