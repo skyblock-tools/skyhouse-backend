@@ -119,8 +119,8 @@ def fetch_all_auctions() -> dict:
                 }))
 
     for item in to_remove:
-        delete_auction(pipeline, item)
-    pipeline.execute()
+        delete_auction(delete_pipeline, item)
+    delete_pipeline.execute()
 
     logger.debug(f"inserting {total} auctions")
     pipeline.execute()
@@ -134,5 +134,5 @@ def fetch_all_auctions() -> dict:
 
 def delete_auction(redis_or_pipeline, data, uuid="auction_id"):
     _type = "bin" if data.bin else "auction"
-    redis_or_pipeline.delete(f"{_type}:{data[uuid]}", f"{_type}flip:{data[uuid]}")
+    redis_or_pipeline.delete(f"{_type}:{data.internal_name}:{data[uuid]}", f"{_type}flip:{data[uuid]}")
     redis_or_pipeline.zrem(f"bins:{data.internal_name}", data[uuid])

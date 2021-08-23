@@ -33,8 +33,10 @@ def find_flips():
                     "type": "bin",
                 })
                 continue
+            else:
+                pipeline.delete(f"binflip:{item[5:]}")
         if not flip:
-            pipeline.delete(f"*flip:{item[5:]}")
+            pipeline.delete(f"auctionflip:{item[5:]}")
     pipeline.execute()
 
 
