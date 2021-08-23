@@ -8,9 +8,9 @@ webhooks = {}
 
 
 def flip_cb(message: dict):
-    auc_id, profit = message['data'].split(':')
+    i_name, auc_id, profit = message['data'].split(':')
     _type = message['channel'].split(':')[0][:-4]
-    info = runtimeConfig.redis.hgetall(f"{_type}:{auc_id}")
+    info = runtimeConfig.redis.hgetall(f"{_type}:{i_name}:{auc_id}")
     if not info:
         return
     info = JsonWrapper.from_dict(info)

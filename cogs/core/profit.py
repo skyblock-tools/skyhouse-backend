@@ -1,4 +1,5 @@
 import runtimeConfig
+from loguru import logger
 
 
 def find_flips():
@@ -13,7 +14,7 @@ def find_flips():
             for auction in auctions:
                 profit = l_bins[0][1] - auction[1]
                 if profit > 100_000:
-                    runtimeConfig.redis.publish("auctionflip:profit", f"{auction[0]}:{round(profit)}")
+                    runtimeConfig.redis.publish("auctionflip:profit", f"{item[5:]}:{auction[0]}:{round(profit)}")
                     pipeline.hset(f"auctionflip:{item[9:]}", mapping={
                         "uuid": auction[0],
                         "profit": round(profit),
@@ -24,7 +25,7 @@ def find_flips():
 
             profit = l_bins[1][1] - l_bins[0][1]
             if profit > 100_000:
-                pipeline.publish("binflip:profit", f"{l_bins[0][0]}:{round(profit)}")
+                pipeline.publish("binflip:profit", f"{item[5:]}:{l_bins[0][0]}:{round(profit)}")
                 pipeline.hset(f"binflip:{item[5:]}", mapping={
                     "uuid": l_bins[0][0],
                     "profit": round(profit),

@@ -9,7 +9,13 @@ from .auction_mainloop import fetch_all_auctions
 from .profit import find_flips
 
 
-def mainloop():
+def profit_mainloop():
+    while True:
+        find_flips()
+        time.sleep(5)
+
+
+def fetch_mainloop():
     while True:
         logger.debug("fetching auctions")
         start = time.time()
@@ -17,9 +23,6 @@ def mainloop():
         end = time.time()
         auctions = data["data"]
         logger.info(f"fetched and processed {len(auctions)} auctions in {round(end - start)} seconds")
-        bin_flip_thread: threading.Thread = threading.Thread(target=find_flips)
-        bin_flip_thread.setDaemon(True)
-        bin_flip_thread.start()
         last_updated = data["last_updated"] / 1000
         next_update = last_updated + 60
         delta = next_update - time.time()
@@ -37,6 +40,10 @@ def setup():
     mongodb.setup()
     logger.info("MongoDB connection established")
 
-    thread: threading.Thread = threading.Thread(target=mainloop)
-    thread.setDaemon(True)
-    thread.start()
+    fetch_thread: threading.Thread = threading.Thread(target=fetch_mainloop)
+    fetch_thread.setDaemon(True)
+    fetch_thread.start()
+
+    profit_thread: threading.Thread = threading.Thread(target=profit_mainloop)
+    profit_thread.setDaemon(True)
+    profit_thread.start()

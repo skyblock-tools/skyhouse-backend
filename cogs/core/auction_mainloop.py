@@ -74,14 +74,17 @@ def fetch_all_auctions() -> dict:
 
     existing_auctions = set(runtimeConfig.redis.keys("auction:*"))
     existing_bins = set(runtimeConfig.redis.keys("bin:*"))
-    existing_uuids = [z[8:] for z in existing_auctions] + [z[4:] for z in existing_bins]
+
+    existing_auction_uuids = set([z.split(':')[2] for z in existing_auctions])
+    existing_bin_uuids = set([z.split(':')[2] for z in existing_bins])
+    existing_uuids = existing_auction_uuids.union(existing_bin_uuids)
 
     to_process = []
     for auction in auctions:
-        if f"auction:{auction['uuid']}" in existing_auctions:
+        if auction['uuid'] in existing_auction_uuids:
             if len(auction['bids']) > 0 and auction['bids'][-1]['timestamp'] > last_loop_run:
                 to_process.append(auction)
-        elif f'bin:{auction["uuid"]}' not in existing_bins:
+        elif auction["uuid"] not in existing_bin_uuids:
             to_process.append(auction)
 
     logger.debug(f"processing, discarded {len(auctions) - len(to_process)} existing entries")
@@ -95,29 +98,25 @@ def fetch_all_auctions() -> dict:
         if data.end < time.time() * 1000 or data["uuid"] in existing_uuids:
             delete_auction(delete_pipeline, data, "uuid")
         _type = "bin" if data.bin else "auction"
-        pipeline.hset(f"{_type}:{mapping['uuid']}", mapping=mapping)
+        pipeline.hset(f"{_type}:{data.internal_name}:{mapping['uuid']}", mapping=mapping)
         pipeline.zadd(f"{_type}s:{data.internal_name}", mapping={mapping["uuid"]: f'{mapping["price"]}'})
 
     delete_pipeline.execute()
 
     logger.debug("beginning cull")
 
-    uuids = [z["uuid"] for z in auctions]
+    uuids = set([z["uuid"] for z in auctions])
     to_remove = []
-    for (key, is_bin, idx) in (("bins", True, 4), ("auctions", False, 9)):
-        items = runtimeConfig.redis.keys(f"{key}:*")
-        pipe = runtimeConfig.redis.pipeline()
-        for item in items:
-            pipe.zrange(item, -1, -1, withscores=False)
-        result = pipe.execute()
-        for i, item in enumerate(result):
-            for uuid in item:
-                if uuid not in uuids:
-                    to_remove.append(JsonWrapper.from_dict({
-                        "auction_id": uuid,
-                        "bin": is_bin,
-                        "internal_name": items[i][idx:]
-                    }))
+
+    for (_list, is_bin) in ((existing_auctions, False), (existing_bins, True)):
+        for existing_auction in _list:
+            _, i_name, uuid = existing_auction.split(':')
+            if uuid not in uuids:
+                to_remove.append(JsonWrapper.from_dict({
+                    "auction_id": uuid,
+                    "bin": is_bin,
+                    "internal_name": i_name,
+                }))
 
     for item in to_remove:
         delete_auction(pipeline, item)

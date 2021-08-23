@@ -33,7 +33,7 @@ def get_internal_name_from_nbt(nbt):
             except KeyError:
                 return None
             for enchant_name in enchants:
-                internal_name += f";{enchant_name.upper()}:{enchants[enchant_name]}"
+                internal_name += f";{enchant_name.upper()}-{enchants[enchant_name]}"
     return internal_name
 
 

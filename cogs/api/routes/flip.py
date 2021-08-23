@@ -29,11 +29,12 @@ def setup(app: flask.Flask):
             pipeline.hgetall(key)
         result = pipeline.execute()
         _flips = {}
-        for x in result:
-            _flips[x['uuid']] = {"profit": x['profit'], "quantity": x["quantity"], "type": x["type"]}
+        for i, x in enumerate(result):
+            _flips[x['uuid']] = {"profit": x['profit'], "quantity": x["quantity"], "type": x["type"],
+                                 "i_name": keys[i].split(":")[1]}
         pipeline = runtimeConfig.redis.pipeline()
         for flip in _flips:
-            pipeline.hgetall(f"{_flips[flip]['type']}:{flip}")
+            pipeline.hgetall(f"{_flips[flip]['type']}:{_flips[flip]['i_name']}:{flip}")
         result = pipeline.execute()
         output = []
         result.sort(key=lambda z: -1 if "uuid" not in z else int(_flips[z['uuid']]['profit']), reverse=True)
