@@ -47,8 +47,8 @@ def get_user_guilds(access_token):
 
 
 def setup(app: flask.Flask):
-    @cors.site_only
     @app.route('/auth/oauth/discord')
+    @cors.site_only
     def discord_oauth_endpoint():
         query = flask.request.args
         code = query.get("code", None)
