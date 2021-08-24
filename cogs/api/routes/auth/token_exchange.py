@@ -9,7 +9,7 @@ from ...utils import cors, res
 
 def setup(app: flask.Flask):
     @app.route("/auth/token/create")
-    @cors.site_only
+    @cors.site_only()
     def token_exchange_endpoint():
         query = flask.request.args
         web_token = query.get("webtoken", None)

@@ -16,7 +16,7 @@ def setup():
         "/api": api_app,
     })
 
-    routes = ['flip', 'auth.token_exchange', 'auth.delete_session', 'auth.info', 'auth.oauth.discord_oauth']
+    routes = ['flip', 'auth.token_exchange', 'auth.delete_session', 'auth.info', 'auth.reset_mod_token', 'auth.oauth.discord_oauth']
 
     for route in routes:
         module = importlib.import_module(f"cogs.api.routes.{route}")

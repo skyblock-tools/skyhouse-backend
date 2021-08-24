@@ -8,7 +8,7 @@ import runtimeConfig
 
 def setup(app: flask.Flask):
     @app.route("/auth/token/close")
-    @cors.site_only
+    @cors.site_only()
     def delete_session_endpoint():
         query = flask.request.args
         web_token = query.get("webtoken", None)

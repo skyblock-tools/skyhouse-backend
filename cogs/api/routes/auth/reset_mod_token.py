@@ -8,8 +8,8 @@ from utils.misc import generate_token
 def setup(app: flask.Flask):
 
     @app.route('/auth/token/reset', methods=["POST", "DELETE"])
+    @cors.site_only()
     @auth_ratelimit(ratelimit=False)
-    @cors.site_only
     def auth_reset_endpoint(session):
         discord_id = session.discord_user_id
         new = generate_token()

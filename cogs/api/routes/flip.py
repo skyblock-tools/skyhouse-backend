@@ -13,7 +13,7 @@ from ...core.auction import get_api_output
 
 def setup(app: flask.Flask):
     @app.route('/flips')
-    @cors.site_only
+    @cors.site_only()
     @auth_ratelimit()
     def flip_endpoint(session):
         if session.privilege_level < 1:
