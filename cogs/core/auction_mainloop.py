@@ -67,7 +67,7 @@ def fetch_all_auctions() -> dict:
                 data = future.result()
             except Exception as e:
                 print(e)
-    auctions = [item for page in pages for item in page["auctions"]]
+    auctions = [item for page in pages for item in page.get("auctions", [])]
 
     pipeline = runtimeConfig.redis.pipeline()
     pool = multiprocessing.pool.Pool(processes=10)
