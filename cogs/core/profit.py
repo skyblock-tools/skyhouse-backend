@@ -1,5 +1,4 @@
 import runtimeConfig
-from loguru import logger
 
 
 def find_flips():
@@ -13,8 +12,9 @@ def find_flips():
             auctions = runtimeConfig.redis.zrange(f"auctions:{item[5:]}", 0, 5, withscores=True)
             for auction in auctions:
                 profit = l_bins[0][1] - auction[1]
+                profit -= l_bins[0][1] * 0.02 # remove the 2% selling tax from profit
                 if profit > 100_000:
-                    runtimeConfig.redis.publish("auctionflip:profit", f"{item[5:]}:{auction[0]}:{round(profit)}")
+                    runtimeConfig.redis.publish("auctionflip:profit", f"{auction[0]}:{round(profit)}")
                     pipeline.hset(f"auctionflip:{item[9:]}", mapping={
                         "uuid": auction[0],
                         "profit": round(profit),
@@ -24,8 +24,9 @@ def find_flips():
                     flip = True
 
             profit = l_bins[1][1] - l_bins[0][1]
+            profit -= l_bins[1][1] * 0.02
             if profit > 100_000:
-                pipeline.publish("binflip:profit", f"{item[5:]}:{l_bins[0][0]}:{round(profit)}")
+                pipeline.publish("binflip:profit", f"{l_bins[0][0]}:{round(profit)}")
                 pipeline.hset(f"binflip:{item[5:]}", mapping={
                     "uuid": l_bins[0][0],
                     "profit": round(profit),
@@ -33,10 +34,8 @@ def find_flips():
                     "type": "bin",
                 })
                 continue
-            else:
-                pipeline.delete(f"binflip:{item[5:]}")
         if not flip:
-            pipeline.delete(f"auctionflip:{item[5:]}")
+            pipeline.delete(f"*flip:{item[5:]}")
     pipeline.execute()
 
 
