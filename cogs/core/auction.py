@@ -125,6 +125,7 @@ def parse_auction(auction: dict) -> JsonWrapper:
 
 display_props = [
     "profit",
+    "resell_price",
     "quantity",
     "type",
     "item_bytes",
