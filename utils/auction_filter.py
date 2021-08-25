@@ -29,7 +29,7 @@ default_filter = {
     "sort": 1,
     "serve_nbt": False,
     "limit": 100,
-    "min_quantity": 0,
+    "min_quantity": 10,
     "max_quantity": math.inf,
     "item_filter": 0,
 }
