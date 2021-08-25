@@ -1,3 +1,5 @@
+import math
+
 import runtimeConfig
 
 
@@ -5,11 +7,11 @@ def find_flips():
     items = runtimeConfig.redis.keys("bins:*")
     pipeline = runtimeConfig.redis.pipeline()
     for item in items:
-        l_bins = runtimeConfig.redis.zrange(item, 0, -1, withscores=True)
+        l_bins = runtimeConfig.redis.zrevrangebyscore(item, 0, math.inf, withscores=True)
         flip = False
         if len(l_bins) >= 5:
 
-            auctions = runtimeConfig.redis.zrange(f"auctions:{item[5:]}", 0, 5, withscores=True)
+            auctions = runtimeConfig.redis.zrevrangebyscore(f"auctions:{item[5:]}", 0, math.inf, start=0, num=5, withscores=True)
             for auction in auctions:
                 profit = l_bins[0][1] - auction[1]
                 profit -= l_bins[0][1] * 0.02  # remove the 2% selling tax from profit
