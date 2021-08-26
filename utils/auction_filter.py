@@ -4,6 +4,10 @@ import re
 from utils.JsonWrapper import JsonWrapper
 from utils import constants
 
+TYPE_BIN = 1
+TYPE_AUCTION = 2
+TYPE_BIN_AUCTION = 3
+
 item_filters = [
     lambda auction: auction.skin == "false",  # remove skins
     lambda auction: auction.pet == "false",  # remove pets
@@ -15,6 +19,7 @@ item_filters = [
 no_priv_allowed_filters = [
     "limit",
     "serve_nbt",
+    "type",
 ]
 
 default_filter = {
@@ -32,6 +37,7 @@ default_filter = {
     "min_quantity": 10,
     "max_quantity": math.inf,
     "item_filter": 0,
+    "type": TYPE_BIN_AUCTION,
 }
 
 
@@ -74,6 +80,9 @@ def include(auction, _filter):
 
     quantity = _filter.min_quantity <= int(auction.quantity) <= _filter.max_quantity
 
+    _type = _filter["type"] in [TYPE_BIN, TYPE_BIN_AUCTION] and auction.bin or _filter[
+        "type"] in [TYPE_AUCTION, TYPE_BIN_AUCTION] and not auction.bin
+
     tier = False
     inside_tiers = False
     for _tier in constants.Skyblock.TIERS:
@@ -87,4 +96,4 @@ def include(auction, _filter):
     not_static_blacklist = auction.carpentry == "false" and (not auction.internal_name.startswith("ENCHANTED_BOOK") or
                                                              len(auction.internal_name.split(';')) < 2)
 
-    return price_range and profit and time and name and item_filter and quantity and tier and not_static_blacklist
+    return price_range and profit and time and name and item_filter and quantity and _type and tier and not_static_blacklist
