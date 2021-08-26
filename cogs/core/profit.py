@@ -8,24 +8,25 @@ def find_flips():
     pipeline = runtimeConfig.redis.pipeline()
     for item in items:
         l_bins = runtimeConfig.redis.zrangebyscore(item, 0, math.inf, withscores=True)
-        flip = False
         if len(l_bins) >= 5:
-
             auctions = runtimeConfig.redis.zrangebyscore(f"auctions:{item[5:]}", 0, math.inf, start=0, num=5,
                                                          withscores=True)
+            auc_flip = False
             for auction in auctions:
                 profit = l_bins[0][1] - auction[1]
                 profit -= l_bins[0][1] * 0.02  # remove the 2% selling tax from profit
                 if profit > 100_000:
                     runtimeConfig.redis.publish("auctionflip:profit", f"{item[5:]}:{auction[0]}:{round(profit)}")
-                    pipeline.hset(f"auctionflip:{item[9:]}", mapping={
+                    pipeline.hset(f"auctionflip:{item[5:]}", mapping={
                         "uuid": auction[0],
                         "profit": round(profit),
                         "resell_price": round(l_bins[0][1]),
                         "quantity": len(l_bins),
                         "type": "auction",
                     })
-                    flip = True
+                    auc_flip = True
+            if not auc_flip:
+                pipeline.delete(f"auctionflip:{item[5:]}")
 
             profit = l_bins[1][1] - l_bins[0][1]
             profit -= l_bins[1][1] * 0.02
@@ -38,7 +39,6 @@ def find_flips():
                     "quantity": len(l_bins),
                     "type": "bin",
                 })
-                continue
-        if not flip:
-            pipeline.delete(f"*flip:{item[5:]}")
+            else:
+                pipeline.delete(f"binflip:{item[5:]}")
     pipeline.execute()
