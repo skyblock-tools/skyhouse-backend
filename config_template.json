@@ -14,8 +14,8 @@
   },
   "discord_guild_id": 0,
   "webhooks": {
-    "bin": "",
-    "auction": ""
+    "bin": [],
+    "auction": []
   },
   "cors_host": "*",
   "initial_cogs": [

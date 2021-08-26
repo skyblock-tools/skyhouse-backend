@@ -25,16 +25,17 @@ def flip_cb(message: dict):
     embed.add_embed_field(name="» Rarity", value=f"`{info.tier}`", inline=False)
     embed.add_embed_field(name="» Seller", value=f"```\n/viewauction {info.uuid}\n```", inline=False)
 
-    webhook = webhooks[_type]
-    webhook.add_embed(embed)
-    if len(webhook.embeds) == 10:
-        webhook.execute(remove_embeds=True)
+    for webhook in webhooks[_type]:
+        webhook.add_embed(embed)
+        if len(webhook.embeds) == 10:
+            webhook.execute(remove_embeds=True)
 
 
 # noinspection SpellCheckingInspection
 def setup():
     for webhook in runtimeConfig.webhooks:
-        webhooks[webhook] = discord_webhook.DiscordWebhook(url=runtimeConfig.webhooks[webhook], rate_limit_retry=True)
+        webhooks[webhook] = [discord_webhook.DiscordWebhook(url=link, rate_limit_retry=True) for link in
+                             runtimeConfig.webhooks[webhook]]
     pubsub = runtimeConfig.redis.pubsub()
     pubsub.subscribe(**{"binflip:profit": flip_cb, "auctionflip:profit": flip_cb})
     pubsub.run_in_thread()
