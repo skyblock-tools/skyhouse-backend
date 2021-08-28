@@ -16,7 +16,7 @@ def flip_cb(message: dict):
         return
     info = JsonWrapper.from_dict(info)
     if (_type == "auction" and int(info["end"]) / 1000 - time.time() > 300) or not \
-            auction_filter.include(info, auction_filter.default_filter):
+            auction_filter.include(info, JsonWrapper.from_dict(auction_filter.default_filter)):
         return
 
     embed = discord_webhook.DiscordEmbed(title="AUCTION ALERT", color=0xCBCDCD,
