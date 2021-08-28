@@ -76,7 +76,6 @@ def decode_nbt(item_bytes: str) -> dict:
 
 
 auction_attrs = [
-    "end",
     "item_name",
     "item_bytes",
     "tier",
@@ -124,6 +123,7 @@ def parse_auction(auction: dict) -> JsonWrapper:
     output.soul = "Cake Soul" in auction["item_lore"]
     output.price = auction["highest_bid_amount"] if not output.bin and auction["highest_bid_amount"] != 0 \
         else auction["starting_bid"]
+    output.end = round(auction["end"] / 1000)
 
     return output
 
