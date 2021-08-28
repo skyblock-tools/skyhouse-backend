@@ -151,4 +151,5 @@ def get_api_output(auction: dict):
     for key in display_props:
         if key in auction:
             output[key] = auction[key]
+    output["end"] *= 1000
     return output
