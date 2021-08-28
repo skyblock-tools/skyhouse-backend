@@ -51,7 +51,7 @@ def get_item_head_url_from_nbt(nbt):
                        "SKIN"]['url'].split("/")[4]
         else:
             return None
-    except KeyError:
+    except (KeyError, Exception):
         return None
 
 
