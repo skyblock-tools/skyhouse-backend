@@ -100,7 +100,7 @@ def include(auction, _filter):
         if _tier.casefold() == _filter.max_tier.casefold():
             break
 
-    not_static_blacklist = auction.carpentry == "false" and ((not auction.internal_name.startswith("ENCHANTED_BOOK")) or
+    not_static_blacklist = (not auction.carpentry) and ((not auction.internal_name.startswith("ENCHANTED_BOOK")) or
                                                              len(auction.internal_name.split(';')) < 2)
 
     return price_range and profit and time_ and name and item_filter and quantity and type_ and tier and not_static_blacklist
