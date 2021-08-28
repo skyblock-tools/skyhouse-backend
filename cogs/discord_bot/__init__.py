@@ -1,6 +1,7 @@
 import time
 
 import runtimeConfig
+from utils import auction_filter
 from utils.JsonWrapper import JsonWrapper
 import discord_webhook
 
@@ -14,7 +15,8 @@ def flip_cb(message: dict):
     if not info:
         return
     info = JsonWrapper.from_dict(info)
-    if _type == "auction" and int(info["end"]) / 1000 - time.time() > 300:
+    if (_type == "auction" and int(info["end"]) / 1000 - time.time() > 300) or not \
+            auction_filter.include(info, auction_filter.default_filter):
         return
 
     embed = discord_webhook.DiscordEmbed(title="AUCTION ALERT", color=0xCBCDCD,
@@ -37,7 +39,8 @@ def flip_cb(message: dict):
 # noinspection SpellCheckingInspection
 def setup():
     for webhook in runtimeConfig.webhooks:
-        webhooks[webhook] = [{"last": 0, "webhook": discord_webhook.DiscordWebhook(url=link, rate_limit_retry=True)} for link in
+        webhooks[webhook] = [{"last": 0, "webhook": discord_webhook.DiscordWebhook(url=link, rate_limit_retry=True)} for
+                             link in
                              runtimeConfig.webhooks[webhook]]
     pubsub = runtimeConfig.redis.pubsub()
     pubsub.subscribe(**{"binflip:profit": flip_cb, "auctionflip:profit": flip_cb})

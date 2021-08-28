@@ -8,6 +8,11 @@ TYPE_BIN = 1
 TYPE_AUCTION = 2
 TYPE_BIN_AUCTION = 3
 
+SORT_PROFIT = 1
+SORT_PROFIT_PROPORTION = 2
+SORT_PRICE = 3
+SORT_QUANTITY = 4
+
 item_filters = [
     lambda auction: auction.skin == "false",  # remove skins
     lambda auction: auction.pet == "false",  # remove pets
@@ -18,6 +23,7 @@ item_filters = [
 
 no_priv_allowed_filters = [
     "limit",
+    "min_quantity",
     "serve_nbt",
     "type",
 ]
@@ -30,11 +36,11 @@ default_filter = {
     "max_time": math.inf,
     "min_tier": "common",
     "max_tier": "special",
-    "regex": None,
+    "regex": "",
     "sort": 1,
     "serve_nbt": False,
     "limit": 100,
-    "min_quantity": 10,
+    "min_quantity": 5,
     "max_quantity": math.inf,
     "item_filter": 0,
     "type": TYPE_BIN_AUCTION,
@@ -75,7 +81,7 @@ def include(auction, _filter):
     profit = int(auction.profit) >= _filter.min_profit and (
             (not bool(auction.bin)) or int(auction.profit) <= _filter.bin_max_profit)
     time = _filter.min_time < auction.end <= _filter.max_time
-    name = _filter.regex is None or re.search(_filter.regex, auction.item_name)
+    name = _filter.regex == "" or re.search(_filter.regex, auction.item_name)
     item_filter = all(map(lambda x: x(auction), _filter.item_filter))
 
     quantity = _filter.min_quantity <= int(auction.quantity) <= _filter.max_quantity
@@ -93,7 +99,7 @@ def include(auction, _filter):
         if _tier.casefold() == _filter.max_tier.casefold():
             break
 
-    not_static_blacklist = auction.carpentry == "false" and (not auction.internal_name.startswith("ENCHANTED_BOOK") or
+    not_static_blacklist = auction.carpentry == "false" and ((not auction.internal_name.startswith("ENCHANTED_BOOK")) or
                                                              len(auction.internal_name.split(';')) < 2)
 
     return price_range and profit and time and name and item_filter and quantity and _type and tier and not_static_blacklist

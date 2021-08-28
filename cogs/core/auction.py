@@ -15,6 +15,7 @@ def get_internal_name_from_nbt(nbt):
     nbt = nbt["tag"]
     if nbt is not None and "ExtraAttributes" in nbt:
         ea = nbt["ExtraAttributes"]
+        enchants = ea.get("enchantments", {})
         if "id" in ea:
             internal_name = f"{ea['id']}".replace(":", "-")
         else:
@@ -28,12 +29,16 @@ def get_internal_name_from_nbt(nbt):
             tiers = ["COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "MYTHIC", "SPECIAL"]
             internal_name += f";{tiers.index(tier)}"
         elif internal_name == "ENCHANTED_BOOK":
-            try:
-                enchants = ea["enchantments"]
-            except KeyError:
+            if not enchants:
                 return None
             for enchant_name in enchants:
                 internal_name += f";{enchant_name.upper()}-{enchants[enchant_name]}"
+        if enchants:
+            for enchant_name in enchants:
+                if enchant_name.lower().startswith("ultimate") or enchants[enchant_name] > 6:
+                    internal_name += f";{enchant_name}-{enchants[enchant_name]}"
+        if ea.get("rarity_upgrades", 0) > 0:
+            internal_name += "[recomb]"
     return internal_name
 
 
@@ -46,21 +51,21 @@ def get_item_head_url_from_nbt(nbt):
                        "SKIN"]['url'].split("/")[4]
         else:
             return None
-    except Exception:
+    except KeyError:
         return None
 
 
 def get_display_name_from_nbt(nbt):
     try:
         return nbt["tag"]["display"]["Name"]
-    except Exception:
+    except KeyError:
         return None
 
 
 def get_bare_skyblock_id_from_nbt(nbt):
     try:
         return nbt["tag"]["ExtraAttributes"]["id"]
-    except Exception:
+    except KeyError:
         return None
 
 
@@ -97,7 +102,7 @@ def parse_auction(auction: dict) -> JsonWrapper:
         "lore": auction["item_lore"],
         "display_name": get_display_name_from_nbt(_nbt),
         "skyblock_id": get_bare_skyblock_id_from_nbt(_nbt),
-        "head_url":  get_item_head_url_from_nbt(_nbt) if "SkullOwner" in _nbt["tag"] else "",
+        "head_url": get_item_head_url_from_nbt(_nbt) if "SkullOwner" in _nbt["tag"] else "",
     })
     for attr in auction_attrs:
         output[attr] = auction.get(attr, None)

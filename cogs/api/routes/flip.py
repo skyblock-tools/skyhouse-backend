@@ -1,7 +1,6 @@
 import time
 
 import flask
-import random
 
 from utils.JsonWrapper import JsonWrapper
 from ..middleware.auth_ratelimit import auth_ratelimit
@@ -37,7 +36,17 @@ def setup(app: flask.Flask):
             pipeline.hgetall(f"{_flips[flip]['type']}:{_flips[flip]['i_name']}:{flip}")
         result = pipeline.execute()
         output = []
-        result.sort(key=lambda z: -1 if "uuid" not in z else int(_flips[z['uuid']]['profit']), reverse=True)
+        result = [*filter(lambda z: "uuid" in z, result)]
+
+        if _filter.sort == auction_filter.SORT_PROFIT_PROPORTION:
+            result.sort(key=lambda z: int(_flips[z['uuid']]['profit']) / int(z["price"]), reverse=True)
+        elif _filter.sort == auction_filter.SORT_PRICE:
+            result.sort(key=lambda z: int(z["price"]))
+        elif _filter.sort == auction_filter.SORT_QUANTITY:
+            result.sort(key=lambda z: int(_flips[z["uuid"]]["quantity"]), reverse=True)
+        else:
+            result.sort(key=lambda z: int(_flips[z['uuid']]['profit']), reverse=True)
+
         for x in result:
             if not x:
                 continue
