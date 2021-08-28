@@ -54,7 +54,7 @@ def setup(app: flask.Flask):
                 break
             tmp = JsonWrapper.from_dict(_flips[x["uuid"]] | x)
             tmp.parse_str_ints()
-            if tmp.type == "auction" and tmp.end / 1000 - time.time() > 300:
+            if tmp.type == "auction" and tmp.end - time.time() > 300:
                 continue
             if auction_filter.include(tmp, _filter):
                 out = JsonWrapper.from_dict(get_api_output(_flips[x["uuid"]] | x))

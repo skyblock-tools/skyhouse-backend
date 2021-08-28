@@ -6,6 +6,7 @@ from utils.JsonWrapper import JsonWrapper
 import discord_webhook
 
 webhooks = {}
+default_filter = auction_filter.parse_filter({})
 
 
 def flip_cb(message: dict):
@@ -18,8 +19,9 @@ def flip_cb(message: dict):
         "profit": profit,
         "quantity": 10,
     })
-    if (_type == "auction" and int(info["end"]) / 1000 - time.time() > 300) or not \
-            auction_filter.include(info, JsonWrapper.from_dict(auction_filter.default_filter)):
+    info.parse_str_ints()
+    if (_type == "auction" and info["end"] - time.time() > 300) or not \
+            auction_filter.include(info, default_filter):
         return
 
     embed = discord_webhook.DiscordEmbed(title="AUCTION ALERT", color=0xCBCDCD,

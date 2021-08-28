@@ -33,7 +33,7 @@ default_filter = {
     "max_price": math.inf,
     "min_profit": 0,
     "bin_max_profit": math.inf,
-    "min_time": -1,
+    "min_time": 20,
     "max_time": math.inf,
     "min_tier": "common",
     "max_tier": "special",
