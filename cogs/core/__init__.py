@@ -6,13 +6,7 @@ from loguru import logger
 import runtimeConfig
 from .svc import _redis, mongodb
 from .auction_mainloop import fetch_all_auctions
-from .profit import find_flips
-
-
-def profit_mainloop():
-    while True:
-        find_flips()
-        time.sleep(5)
+from .profit import find_flips_in_thread
 
 
 def fetch_mainloop():
@@ -23,6 +17,7 @@ def fetch_mainloop():
         end = time.time()
         auctions = data["data"]
         logger.info(f"fetched and processed {len(auctions)} auctions in {round(end - start)} seconds")
+        find_flips_in_thread()
         last_updated = data["last_updated"] / 1000
         next_update = last_updated + 60
         delta = next_update - time.time()
@@ -43,7 +38,3 @@ def setup():
     fetch_thread: threading.Thread = threading.Thread(target=fetch_mainloop)
     fetch_thread.setDaemon(True)
     fetch_thread.start()
-
-    profit_thread: threading.Thread = threading.Thread(target=profit_mainloop)
-    profit_thread.setDaemon(True)
-    profit_thread.start()

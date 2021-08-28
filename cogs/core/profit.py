@@ -1,9 +1,22 @@
 import math
+import threading
 
 import runtimeConfig
 
+running = False
+
+
+def find_flips_in_thread():
+    if running:
+        return
+    thread: threading.Thread = threading.Thread(target=find_flips)
+    thread.setDaemon(True)
+    thread.start()
+
 
 def find_flips():
+    global running
+    running = True
     items = runtimeConfig.redis.keys("bins:*")
     pipeline = runtimeConfig.redis.pipeline()
     for item in items:
@@ -42,3 +55,4 @@ def find_flips():
             else:
                 pipeline.delete(f"binflip:{item[5:]}")
     pipeline.execute()
+    running = False
