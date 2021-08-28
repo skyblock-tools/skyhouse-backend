@@ -118,7 +118,7 @@ def parse_auction(auction: dict) -> JsonWrapper:
     output.bin = "bin" in auction and auction["bin"]
     output.recomb = "§k" in auction["item_lore"]
     if output.recomb:
-        output.tier = constants.Skyblock.TIERS[constants.Skyblock.TIERS.index(output.tier.lower()) - 1]
+        output.tier = constants.Skyblock.TIERS[constants.Skyblock.TIERS.index(output.tier.lower()) - 1].upper()
     output.carpentry = "Furniture" in auction["item_lore"]
     output.skin = "Skin" in output.item_name
     output.soul = "Cake Soul" in auction["item_lore"]
