@@ -14,7 +14,10 @@ def flip_cb(message: dict):
     info = runtimeConfig.redis.hgetall(f"{_type}:{i_name}:{auc_id}")
     if not info:
         return
-    info = JsonWrapper.from_dict(info)
+    info = JsonWrapper.from_dict(info | {
+        "profit": profit,
+        "quantity": 10,
+    })
     if (_type == "auction" and int(info["end"]) / 1000 - time.time() > 300) or not \
             auction_filter.include(info, JsonWrapper.from_dict(auction_filter.default_filter)):
         return

@@ -33,7 +33,7 @@ def get_internal_name_from_nbt(nbt):
                 return None
             for enchant_name in enchants:
                 internal_name += f";{enchant_name.upper()}-{enchants[enchant_name]}"
-        if enchants:
+        elif enchants:
             for enchant_name in enchants:
                 if enchant_name.lower().startswith("ultimate") or enchants[enchant_name] > 6:
                     internal_name += f";{enchant_name}-{enchants[enchant_name]}"

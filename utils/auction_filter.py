@@ -1,5 +1,6 @@
 import math
 import re
+import time
 
 from utils.JsonWrapper import JsonWrapper
 from utils import constants
@@ -80,13 +81,13 @@ def include(auction, _filter):
         price_range = int(auction.price) < _filter.max_price
     profit = int(auction.profit) >= _filter.min_profit and (
             (not bool(auction.bin)) or int(auction.profit) <= _filter.bin_max_profit)
-    time = _filter.min_time < auction.end <= _filter.max_time
+    time_ = _filter.min_time < auction.end - time.time() <= _filter.max_time
     name = _filter.regex == "" or re.search(_filter.regex, auction.item_name)
     item_filter = all(map(lambda x: x(auction), _filter.item_filter))
 
     quantity = _filter.min_quantity <= int(auction.quantity) <= _filter.max_quantity
 
-    _type = _filter["type"] in [TYPE_BIN, TYPE_BIN_AUCTION] and auction.bin or _filter[
+    type_ = _filter["type"] in [TYPE_BIN, TYPE_BIN_AUCTION] and auction.bin or _filter[
         "type"] in [TYPE_AUCTION, TYPE_BIN_AUCTION] and not auction.bin
 
     tier = False
@@ -102,4 +103,4 @@ def include(auction, _filter):
     not_static_blacklist = auction.carpentry == "false" and ((not auction.internal_name.startswith("ENCHANTED_BOOK")) or
                                                              len(auction.internal_name.split(';')) < 2)
 
-    return price_range and profit and time and name and item_filter and quantity and _type and tier and not_static_blacklist
+    return price_range and profit and time_ and name and item_filter and quantity and type_ and tier and not_static_blacklist
