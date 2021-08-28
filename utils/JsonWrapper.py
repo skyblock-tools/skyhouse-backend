@@ -47,6 +47,8 @@ class JsonWrapper(dict):
                 self[key] = int(self[key])
             elif type(self[key]) == dict:
                 self[key] = self.from_dict(self[key])
+            elif isinstance(self[key], str) and self[key] in ("true", "false"):
+                self[key] = self[key] == "true"
             if isinstance(self[key], JsonWrapper):
                 self[key].parse_str_ints()
 

@@ -15,10 +15,10 @@ SORT_PRICE = 3
 SORT_QUANTITY = 4
 
 item_filters = [
-    lambda auction: auction.skin == "false",  # remove skins
-    lambda auction: auction.pet == "false",  # remove pets
-    lambda auction: auction.recomb == "false",  # remove recombs
-    lambda auction: auction.soul == "false",  # remove cake souls
+    lambda auction: not auction.skin,  # remove skins
+    lambda auction: not auction.pet,  # remove pets
+    lambda auction: not auction.recomb,  # remove recombs
+    lambda auction: not auction.soul,  # remove cake souls
     lambda auction: not auction.internal_name.startswith("ENCHANTED_BOOK"),  # remove enchanted books
 ]
 
