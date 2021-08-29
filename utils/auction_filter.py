@@ -101,6 +101,6 @@ def include(auction, _filter):
             break
 
     not_static_blacklist = (not auction.carpentry) and ((not auction.internal_name.startswith("ENCHANTED_BOOK")) or
-                                                             len(auction.internal_name.split(';')) < 2)
+                                                             len(auction.internal_name.split(';')) <3)
 
     return price_range and profit and time_ and name and item_filter and quantity and type_ and tier and not_static_blacklist
