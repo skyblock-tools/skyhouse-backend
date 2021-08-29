@@ -143,6 +143,10 @@ display_props = [
     "display_name",
     "skyblock_id",
     "head_url",
+    "recomb",  # noqa
+    "soul",
+    "skin",
+    "pet",
 ]
 
 
@@ -151,5 +155,5 @@ def get_api_output(auction: dict):
     for key in display_props:
         if key in auction:
             output[key] = auction[key]
-    output["end"] *= 1000
+    output["end"] = int(output["end"]) * 1000
     return output
