@@ -56,13 +56,13 @@ def parse_item_filter(_filter: int):
     return output
 
 
-def parse_filter(json: dict, priv=True, level=1) -> JsonWrapper:
+def parse_filter(json_: dict, priv=True, level=1) -> JsonWrapper:
     output = {}
     for key in default_filter:
         if priv or key in no_priv_allowed_filters:
-            if key in json:
+            if key in json_:
                 try:
-                    output[key] = type(default_filter[key])(json[key])
+                    output[key] = type(default_filter[key])(json_[key])
                 except (TypeError, ValueError):
                     output[key] = default_filter[key]
             else:

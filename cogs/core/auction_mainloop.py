@@ -1,7 +1,7 @@
 import multiprocessing.pool
 import time
 
-import ujson
+import json
 import concurrent.futures
 import requests
 from loguru import logger
@@ -32,12 +32,12 @@ def fetch_all_auctions() -> dict:
     def fetch_page(url=auction_base_url, page: int = None):
         nonlocal last_updated
         resp = requests.get(url, params={"page": page} if page else {})
-        json = ujson.loads(resp.text)
+        json_ = json.loads(resp.text)
         if page is not None:
-            pages.append(json)
+            pages.append(json_)
         if page != 0 and page is not None and page == total_pages - 1:
-            last_updated = json["lastUpdated"]
-        return json
+            last_updated = json_["lastUpdated"]
+        return json_
 
     pipeline = runtimeConfig.redis.pipeline()
 

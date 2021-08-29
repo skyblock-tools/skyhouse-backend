@@ -1,5 +1,5 @@
 import flask
-import ujson
+import json as jsonlib  # Name conflict with the function name
 
 
 def json(body=None, headers=None, code=200, **kwargs):
@@ -8,6 +8,6 @@ def json(body=None, headers=None, code=200, **kwargs):
     if body is None:
         body = {"success": False}
     headers.update({"Content-Type": "application/json"})
-    response = flask.Response(response=ujson.dumps(body),
+    response = flask.Response(response=jsonlib.dumps(body),
                               status=code, headers=headers, mimetype="application/json")
     return response

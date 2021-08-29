@@ -4,7 +4,7 @@ import re
 import nbtlib
 import io
 import base64
-import ujson
+import json
 
 from utils import constants
 from utils.JsonWrapper import JsonWrapper
@@ -23,7 +23,7 @@ def get_internal_name_from_nbt(nbt):
         if internal_name == "PET":
             if "petInfo" not in ea:
                 return None
-            pet_info = ujson.loads(ea["petInfo"])
+            pet_info = json.loads(ea["petInfo"])
             internal_name = pet_info["type"]
             tier = pet_info["tier"]
             tiers = ["COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "MYTHIC", "SPECIAL"]
@@ -46,7 +46,7 @@ def get_item_head_url_from_nbt(nbt):
     try:
         if "SkullOwner" in nbt["tag"]:
             return "https://mc-heads.net/head/" + \
-                   ujson.loads(base64.b64decode(nbt["tag"]["SkullOwner"]["Properties"]["textures"][0]["Value"]))[
+                   json.loads(base64.b64decode(nbt["tag"]["SkullOwner"]["Properties"]["textures"][0]["Value"]))[
                        "textures"][
                        "SKIN"]['url'].split("/")[4]
         else:

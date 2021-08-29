@@ -1,5 +1,5 @@
 import uuid
-import ujson
+import json
 
 
 def generate_token():
@@ -7,4 +7,4 @@ def generate_token():
 
 
 def redis_json_dump(obj: dict):
-    return {k: v if type(v) in [str, int, float] else ujson.dumps(v) for k, v in obj.items()}
+    return {k: v if type(v) in [str, int, float] else json.dumps(v) for k, v in obj.items()}
