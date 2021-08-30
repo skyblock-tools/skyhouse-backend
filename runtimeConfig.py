@@ -45,3 +45,7 @@ webhooks: dict = None
 # Allowed domains for cors-protected endpoints
 # From configReader.py
 cors_host: str = "*"
+
+# Path to static data directory
+# From configReader.py
+static_base_url: str = ""

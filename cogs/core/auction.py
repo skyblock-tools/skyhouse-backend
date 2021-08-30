@@ -8,6 +8,7 @@ import json
 
 from utils import constants
 from utils.JsonWrapper import JsonWrapper
+from . import static_cache
 
 
 def get_internal_name_from_nbt(nbt):
@@ -34,9 +35,16 @@ def get_internal_name_from_nbt(nbt):
             for enchant_name in enchants:
                 internal_name += f";{enchant_name.upper()}-{enchants[enchant_name]}"
         elif enchants:
+            ec_levels = static_cache.get_json_file("prices", "enchant_levels")
+            ecs = {}
             for enchant_name in enchants:
-                if enchant_name.lower().startswith("ultimate") or enchants[enchant_name] > 6:
+                for i, level in enumerate(ec_levels.levels):
+                    if enchant_name.upper() in level:
+                        ecs[i] = max(enchants[enchant_name], ecs.get(i, 0))
+                if enchant_name in ec_levels.keep:
                     internal_name += f";{enchant_name}-{enchants[enchant_name]}"
+            if ecs:
+                internal_name += f";{max(ecs.keys())}-{ecs[max(ecs.keys())]}"
         if ea.get("rarity_upgrades", 0) > 0:
             internal_name += "[recomb]"
     return internal_name

@@ -22,5 +22,6 @@
     "cogs.core",
     "cogs.discord_bot",
     "cogs.api"
-  ]
+  ],
+  "static_base_url": ""
 }
