@@ -95,11 +95,12 @@ def fetch_all_auctions() -> dict:
     delete_pipeline = runtimeConfig.redis.pipeline()
     for i, chunk in enumerate(processed):
         data, mapping = chunk
-        if data.end < time.time() * 1000 or data["uuid"] in existing_uuids:
+        if data.end < time.time():
             delete_auction(delete_pipeline, data, "uuid")
-        _type = "bin" if data.bin else "auction"
-        pipeline.hset(f"{_type}:{data.internal_name}:{mapping['uuid']}", mapping=mapping)
-        pipeline.zadd(f"{_type}s:{data.internal_name}", mapping={mapping["uuid"]: f'{mapping["price"]}'})
+        else:
+            _type = "bin" if data.bin else "auction"
+            pipeline.hset(f"{_type}:{data.internal_name}:{mapping['uuid']}", mapping=mapping)
+            pipeline.zadd(f"{_type}s:{data.internal_name}", mapping={mapping["uuid"]: f'{mapping["price"]}'})
 
     delete_pipeline.execute()
 
@@ -135,4 +136,4 @@ def fetch_all_auctions() -> dict:
 def delete_auction(redis_or_pipeline, data, uuid="auction_id"):
     _type = "bin" if data.bin else "auction"
     redis_or_pipeline.delete(f"{_type}:{data.internal_name}:{data[uuid]}")
-    redis_or_pipeline.zrem(f"bins:{data.internal_name}", data[uuid])
+    redis_or_pipeline.zrem(f"{_type}s:{data.internal_name}", data[uuid])
