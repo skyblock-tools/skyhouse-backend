@@ -27,6 +27,8 @@ no_priv_allowed_filters = [
     "min_quantity",
     "serve_nbt",
     "type",
+    "min_profit",
+    "max_price",
 ]
 
 default_filter = {
