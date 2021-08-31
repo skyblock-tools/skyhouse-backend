@@ -94,7 +94,7 @@ def setup(app: flask.Flask):
                 "web_refresh_token": web_refresh_token,
                 "privilege_level": privilege,
                 "ratelimit_minute": rate_limit,
-                "session_token": access_token,
+                "web_session_token": access_token,
             }})
         session = {
             "discord_user_id": user["id"],
