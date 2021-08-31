@@ -13,7 +13,8 @@ def user_payload(_id, **kwargs):
         "ratelimit_minute": 6,
         "web_refresh_token": None,
         "web_refresh_token_generated": 0,
-        "session_token": None,
+        "mod_session_token": None,
+        "web_session_token": None,
         "mod_refresh_token": generate_token(),
         # misc data
         "vc_minutes": 0,
