@@ -17,7 +17,8 @@ def setup(app: flask.Flask):
     def flip_endpoint(session):
         if session.privilege_level < 1:
             return res.json(code=403)
-        _filter = auction_filter.parse_filter(flask.request.args, priv=session.privilege_level > 1, level=session.privilege_level)
+        _filter = auction_filter.parse_filter(flask.request.args, priv=session.privilege_level > 1,
+                                              level=session.privilege_level)
         _filter.parse_str_ints()
         if session.privilege_level < 2:
             _filter.bin_max_profit = 500_000
@@ -29,8 +30,10 @@ def setup(app: flask.Flask):
         result = pipeline.execute()
         _flips = {}
         for i, x in enumerate(result):
-            _flips[x['uuid']] = {"profit": x.get('profit', 0), "quantity": x.get("quantity", 0), "type": x.get("type", ""),
-                                 "i_name": keys[i].split(":")[1], "resell_price": x.get("resell_price", 0)}
+            if "uuid" in x:
+                _flips[x['uuid']] = {"profit": x.get('profit', 0), "quantity": x.get("quantity", 0),
+                                     "type": x.get("type", ""),
+                                     "i_name": keys[i].split(":")[1], "resell_price": x.get("resell_price", 0)}
         pipeline = runtimeConfig.redis.pipeline()
         for flip in _flips:
             pipeline.hgetall(f"{_flips[flip]['type']}:{_flips[flip]['i_name']}:{flip}")
@@ -61,4 +64,3 @@ def setup(app: flask.Flask):
                 out.parse_str_ints()
                 output.append(out.to_dict())
         return res.json({"flips": output, "refresh_session": not session.active})
-
