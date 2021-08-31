@@ -29,8 +29,8 @@ def setup(app: flask.Flask):
         result = pipeline.execute()
         _flips = {}
         for i, x in enumerate(result):
-            _flips[x['uuid']] = {"profit": x['profit'], "quantity": x["quantity"], "type": x["type"],
-                                 "i_name": keys[i].split(":")[1], "resell_price": x["resell_price"]}
+            _flips[x['uuid']] = {"profit": x.get('profit', 0), "quantity": x.get("quantity", 0), "type": x.get("type", ""),
+                                 "i_name": keys[i].split(":")[1], "resell_price": x.get("resell_price", 0)}
         pipeline = runtimeConfig.redis.pipeline()
         for flip in _flips:
             pipeline.hgetall(f"{_flips[flip]['type']}:{_flips[flip]['i_name']}:{flip}")
