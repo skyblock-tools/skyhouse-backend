@@ -73,14 +73,14 @@ def setup(app: flask.Flask):
         if not current_user:
             rate_limit = API.RATE_LIMITS[privilege]
             payload = payloads.user_payload(user["id"], privilege_level=privilege, ratelimit_minute=rate_limit,
-                                            web_refresh_token=web_refresh_token, session_token=access_token)
+                                            web_refresh_token=web_refresh_token, web_session_token=access_token)
         else:
             # noinspection DuplicatedCode
             if current_user["web_refresh_token_generated"] < 0 and \
                     current_user["web_refresh_token_generated"] + time.time() < 15:
                 return res.json(code=403)
-            if current_user["session_token"] is not None:
-                current_session = runtimeConfig.redis.hgetall(f"session:{current_user['session_token']}")
+            if current_user["web_session_token"] is not None:
+                current_session = runtimeConfig.redis.hgetall(f"session:{current_user['web_session_token']}")
                 if current_session and "uses_minute" in current_session and int(
                         current_session["uses_minute"]) > 1 and int(current_session["minute_start"]) + 60 > time.time():
                     return res.json(code=403)
