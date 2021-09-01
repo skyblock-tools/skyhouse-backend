@@ -36,7 +36,7 @@ def find_flips():
 
     pipeline.execute()
     running = False
-    logger.debug(f"Scanned {len(items)} item types for flips in {round(time.time() - start)} seconds")
+    logger.info(f"Scanned {len(items)} item types for flips in {round(time.time() - start)} seconds")
 
 
 def find_flip_for_item_callback(pipeline, i_name, l_bins, auctions):
