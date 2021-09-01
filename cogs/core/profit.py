@@ -1,5 +1,7 @@
 import math
 import threading
+from loguru import logger
+import time
 
 import runtimeConfig
 
@@ -17,6 +19,9 @@ def find_flips_in_thread():
 def find_flips():
     global running
     running = True
+    start = time.time()
+    logger.debug("Finding potential flips")
+
     items = runtimeConfig.redis.keys("bins:*")
     pipeline = runtimeConfig.redis.pipeline()
 
@@ -31,6 +36,7 @@ def find_flips():
 
     pipeline.execute()
     running = False
+    logger.debug(f"Scanned {len(items)} item types for flips in {round(time.time() - start)} seconds")
 
 
 def find_flip_for_item_callback(pipeline, i_name, l_bins, auctions):
