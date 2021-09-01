@@ -25,6 +25,9 @@ def process_ended_auction(x):
     return parse_ended_auction(x)
 
 
+multiprocessing_pool = multiprocessing.pool.Pool(processes=10)
+
+
 def fetch_all_auctions() -> dict:
     global last_loop_run
     pages = []
@@ -43,11 +46,8 @@ def fetch_all_auctions() -> dict:
 
     ended = fetch_page("https://api.hypixel.net/skyblock/auctions_ended")["auctions"]
 
-    pool = multiprocessing.pool.Pool(processes=10)
-
     logger.debug("processing ended auctions")
-    processed = pool.map(process_ended_auction, ended)
-    pool.close()
+    processed = multiprocessing_pool.map(process_ended_auction, ended)
 
     total = len(processed)
     for i, data in enumerate(processed):
@@ -70,7 +70,6 @@ def fetch_all_auctions() -> dict:
     auctions = [item for page in pages for item in page.get("auctions", [])]
 
     pipeline = runtimeConfig.redis.pipeline()
-    pool = multiprocessing.pool.Pool(processes=10)
 
     existing_auctions = set(runtimeConfig.redis.keys("auction:*"))
     existing_bins = set(runtimeConfig.redis.keys("bin:*"))
@@ -88,8 +87,7 @@ def fetch_all_auctions() -> dict:
             to_process.append(auction)
 
     logger.debug(f"processing, discarded {len(auctions) - len(to_process)} existing entries")
-    processed = pool.map(process_auction, to_process)
-    pool.close()
+    processed = multiprocessing_pool.map(process_auction, to_process)
 
     total = len(processed)
     delete_pipeline = runtimeConfig.redis.pipeline()
