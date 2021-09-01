@@ -23,7 +23,7 @@ def fetch_mainloop():
         delta = next_update - time.time()
         if delta > 0:
             logger.debug(f"waiting {round(delta)} seconds for api update")
-            time.sleep(delta)
+            time.sleep(delta + 0.1)
 
 
 def setup():

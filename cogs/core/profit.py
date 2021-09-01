@@ -46,7 +46,7 @@ def find_flip_for_item_callback(pipeline, i_name, l_bins, auctions):
             profit = l_bins[0][1] - auction[1]
             profit -= l_bins[0][1] * 0.02  # remove the 2% selling tax from profit
             if profit > 100_000:
-                runtimeConfig.redis.publish("auctionflip:profit", f"{i_name}:{auction[0]}:{round(profit)}")
+                pipeline.publish("auctionflip:profit", f"{i_name}:{auction[0]}:{round(profit)}")
                 pipeline.hset(f"auctionflip:{i_name}", mapping={
                     "uuid": auction[0],
                     "profit": round(profit),

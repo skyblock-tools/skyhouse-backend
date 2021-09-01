@@ -30,6 +30,7 @@ multiprocessing_pool = multiprocessing.pool.Pool(processes=10)
 
 def fetch_all_auctions() -> dict:
     global last_loop_run
+    start = time.time()
     pages = []
 
     def fetch_page(url=auction_base_url, page: int = None):
@@ -100,8 +101,18 @@ def fetch_all_auctions() -> dict:
             pipeline.hset(f"{_type}:{data.internal_name}:{mapping['uuid']}", mapping=mapping)
             pipeline.zadd(f"{_type}s:{data.internal_name}", mapping={mapping["uuid"]: f'{mapping["price"]}'})
 
-    delete_pipeline.execute()
+    logger.debug(f"inserting {total} auctions")
+    pipeline.execute()
+    cull_auctions(auctions, existing_auctions, existing_bins, delete_pipeline)
+    last_loop_run = start
+    return {
+        "data": auctions,
+        "last_updated": last_updated,
+    }
 
+
+def cull_auctions(auctions, existing_auctions, existing_bins, pipeline):
+    start = time.time()
     logger.debug("culling removed auctions")
 
     uuids = set([z["uuid"] for z in auctions])
@@ -118,17 +129,8 @@ def fetch_all_auctions() -> dict:
                 }))
 
     for item in to_remove:
-        delete_auction(delete_pipeline, item)
-    delete_pipeline.execute()
-
-    logger.debug(f"inserting {total} auctions")
+        delete_auction(pipeline, item)
     pipeline.execute()
-
-    last_loop_run = time.time()
-    return {
-        "data": auctions,
-        "last_updated": last_updated,
-    }
 
 
 def delete_auction(redis_or_pipeline, data, uuid="auction_id"):
