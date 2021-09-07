@@ -6,7 +6,7 @@ import io
 import base64
 import json
 
-from utils import constants
+from utils import constants, skyblock
 from utils.JsonWrapper import JsonWrapper
 from . import static_cache
 
@@ -28,7 +28,10 @@ def get_internal_name_from_nbt(nbt):
             internal_name = pet_info["type"]
             tier = pet_info["tier"]
             tiers = ["COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "MYTHIC", "SPECIAL"]
-            internal_name += f";{tiers.index(tier)}"
+
+            pet_level_group = skyblock.get_level_from_table(constants.Misc.PET_LEVEL_GROUPS,
+                                                            skyblock.get_level_from_pet_xp(tier, pet_info["exp"]))
+            internal_name += f";{tiers.index(tier)};{pet_level_group}"
         elif internal_name == "ENCHANTED_BOOK":
             if not enchants:
                 return None
