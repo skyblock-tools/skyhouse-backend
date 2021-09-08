@@ -1,0 +1,1207 @@
+2021-08-13 11:57:52.221 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 11:57:52.539 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 11:57:52.540 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 11:57:52.543 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 11:57:56.716 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x000002011687FDC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000020114096280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x0000020125B3B0D0>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x0000020125B30040>
+    |      -> <function PubSub.subscribe at 0x00000201168B2A60>
+    -> <redis.client.PubSub object at 0x0000020125B274F0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x0000020125B30040>}
+              |    |                             -> <function iterkeys at 0x000002011685D0D0>
+              |    -> <function PubSub.execute_command at 0x00000201168B2670>
+              -> <redis.client.PubSub object at 0x0000020125B274F0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000020116882AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x0000020125B274F0>
+    |    -> None
+    -> <redis.client.PubSub object at 0x0000020125B274F0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x000002011687FD30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x000002011687FE50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 11:57:58.928 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 11:57:58.951 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 11:59:11.840 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 11:59:12.196 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 11:59:12.196 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 11:59:12.199 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 11:59:16.333 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000028B8B2CFDC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000028B88AB6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x0000028B9A5895E0>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x0000028B9A575790>
+    |      -> <function PubSub.subscribe at 0x0000028B8B302A60>
+    -> <redis.client.PubSub object at 0x0000028B9A572880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x0000028B9A575790>}
+              |    |                             -> <function iterkeys at 0x0000028B8B2AD0D0>
+              |    -> <function PubSub.execute_command at 0x0000028B8B302670>
+              -> <redis.client.PubSub object at 0x0000028B9A572880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000028B8B2D0AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x0000028B9A572880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x0000028B9A572880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000028B8B2CFD30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000028B8B2CFE50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 11:59:18.432 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 11:59:18.459 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:01:51.187 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:01:51.530 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:01:51.531 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:01:51.534 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:01:55.670 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000029207240DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000029204A46280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x00000292164E5700>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x00000292164E59D0>
+    |      -> <function PubSub.subscribe at 0x0000029207272A60>
+    -> <redis.client.PubSub object at 0x00000292164E2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x00000292164E59D0>}
+              |    |                             -> <function iterkeys at 0x000002920721D0D0>
+              |    -> <function PubSub.execute_command at 0x0000029207272670>
+              -> <redis.client.PubSub object at 0x00000292164E2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000029207241AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x00000292164E2880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x00000292164E2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000029207240D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000029207240E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:01:57.733 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:01:57.749 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:02:33.893 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:02:34.182 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:02:34.182 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:02:34.189 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:02:38.272 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x000002A11DB70DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002A11B387280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x000002A12CE159D0>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x000002A12CE15940>
+    |      -> <function PubSub.subscribe at 0x000002A11DBA2A60>
+    -> <redis.client.PubSub object at 0x000002A12CE12880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x000002A12CE15940>}
+              |    |                             -> <function iterkeys at 0x000002A11DB4E0D0>
+              |    -> <function PubSub.execute_command at 0x000002A11DBA2670>
+              -> <redis.client.PubSub object at 0x000002A12CE12880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x000002A11DB71AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x000002A12CE12880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x000002A12CE12880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x000002A11DB70D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x000002A11DB70E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:02:38.672 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:02:38.689 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:02:38.702 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:02:38.783 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002A11B387280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 20, in main
+    cog = importlib.import_module(cog_path)
+          |         |             -> 'cogs.cog_test'
+          |         -> <function import_module at 0x000002A11B08BCA0>
+          -> <module 'importlib' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\__init__.py'>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           |          |           |    |        |        -> 0
+           |          |           |    |        -> None
+           |          |           |    -> 0
+           |          |           -> 'cogs.cog_test'
+           |          -> <function _gcd_import at 0x000002A11AB11310>
+           -> <module 'importlib._bootstrap' (frozen)>
+
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\cog_test\__init__.py", line 7, in <module>
+    from util.recipe_tree.recipe import find_item_recipe
+
+ModuleNotFoundError: No module named 'util'
+2021-08-13 12:02:52.308 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:02:52.598 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:02:52.598 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:02:52.604 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:02:56.661 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x000002527FFF1DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002527EC26280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x00000252106A5700>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x00000252106A59D0>
+    |      -> <function PubSub.subscribe at 0x0000025201432A60>
+    -> <redis.client.PubSub object at 0x00000252106A2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x00000252106A59D0>}
+              |    |                             -> <function iterkeys at 0x000002527FFCE0D0>
+              |    -> <function PubSub.execute_command at 0x0000025201432670>
+              -> <redis.client.PubSub object at 0x00000252106A2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x000002527FFF2AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x00000252106A2880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x00000252106A2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x000002527FFF1D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x000002527FFF1E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:02:57.144 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:02:57.152 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:02:57.166 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:02:59.505 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002527EC26280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 20, in main
+    cog = importlib.import_module(cog_path)
+          |         |             -> 'cogs.cog_test'
+          |         -> <function import_module at 0x000002527E92BCA0>
+          -> <module 'importlib' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\__init__.py'>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           |          |           |    |        |        -> 0
+           |          |           |    |        -> None
+           |          |           |    -> 0
+           |          |           -> 'cogs.cog_test'
+           |          -> <function _gcd_import at 0x000002527E701310>
+           -> <module 'importlib._bootstrap' (frozen)>
+
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\cog_test\__init__.py", line 9, in <module>
+    print(find_item_recipe("CARROT_ITEM"))
+          -> <function find_item_recipe at 0x000002521098A790>
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 25, in find_item_recipe
+    if "recipe" in recipe_date:
+
+NameError: name 'recipe_date' is not defined
+2021-08-13 12:03:31.918 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:03:32.224 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:03:32.225 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:03:32.228 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:03:36.285 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000019A93EBFDC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000019A916E7280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x0000019AA3165550>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x0000019AA3165790>
+    |      -> <function PubSub.subscribe at 0x0000019A93EF2A60>
+    -> <redis.client.PubSub object at 0x0000019AA3163880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x0000019AA3165790>}
+              |    |                             -> <function iterkeys at 0x0000019A93E9D0D0>
+              |    -> <function PubSub.execute_command at 0x0000019A93EF2670>
+              -> <redis.client.PubSub object at 0x0000019AA3163880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000019A93EC2AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x0000019AA3163880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x0000019AA3163880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000019A93EBFD30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000019A93EBFE50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:03:38.640 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:03:38.658 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:03:38.696 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:03:39.453 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000019A916E7280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    -> <module 'cogs.cog_test' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\cog_test\\__i...
+
+AttributeError: module 'cogs.cog_test' has no attribute 'setup'
+2021-08-13 12:05:07.799 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:05:08.071 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:05:08.071 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:05:08.075 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:05:12.141 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000016F9C7B1DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000016F99FB6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x0000016FABA55700>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x0000016FABA555E0>
+    |      -> <function PubSub.subscribe at 0x0000016F9C7E2A60>
+    -> <redis.client.PubSub object at 0x0000016FABA52880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x0000016FABA555E0>}
+              |    |                             -> <function iterkeys at 0x0000016F9C78D0D0>
+              |    -> <function PubSub.execute_command at 0x0000016F9C7E2670>
+              -> <redis.client.PubSub object at 0x0000016FABA52880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000016F9C7B2AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x0000016FABA52880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x0000016FABA52880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000016F9C7B1D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000016F9C7B1E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:05:14.224 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:05:14.235 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:05:14.279 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:05:15.056 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000016F99FB6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    -> <module 'cogs.cog_test' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\cog_test\\__i...
+
+AttributeError: module 'cogs.cog_test' has no attribute 'setup'
+2021-08-13 12:07:19.892 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:07:20.175 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:07:20.176 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:07:20.180 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:07:24.270 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x00000262E6FE1DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x00000262E47E6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x00000262F62859D0>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x00000262F62855E0>
+    |      -> <function PubSub.subscribe at 0x00000262E7012A60>
+    -> <redis.client.PubSub object at 0x00000262F6282880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x00000262F62855E0>}
+              |    |                             -> <function iterkeys at 0x00000262E6FBD0D0>
+              |    -> <function PubSub.execute_command at 0x00000262E7012670>
+              -> <redis.client.PubSub object at 0x00000262F6282880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x00000262E6FE2AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x00000262F6282880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x00000262F6282880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x00000262E6FE1D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x00000262E6FE1E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:07:25.739 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:07:25.753 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:07:25.794 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:07:26.590 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x00000262E47E6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    -> <module 'cogs.cog_test' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\cog_test\\__i...
+
+AttributeError: module 'cogs.cog_test' has no attribute 'setup'
+2021-08-13 12:09:53.631 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:09:53.912 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:09:53.913 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:09:53.918 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:09:58.010 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000024E28320DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000024E25B36280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x0000024E375C5700>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x0000024E375C54C0>
+    |      -> <function PubSub.subscribe at 0x0000024E28352A60>
+    -> <redis.client.PubSub object at 0x0000024E375C2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x0000024E375C54C0>}
+              |    |                             -> <function iterkeys at 0x0000024E282FD0D0>
+              |    -> <function PubSub.execute_command at 0x0000024E28352670>
+              -> <redis.client.PubSub object at 0x0000024E375C2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000024E28322AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x0000024E375C2880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x0000024E375C2880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000024E28320D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000024E28320E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:09:59.965 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:09:59.986 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:10:00.021 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:10:01.528 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000024E25B36280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 20, in main
+    cog = importlib.import_module(cog_path)
+          |         |             -> 'cogs.cog_test'
+          |         -> <function import_module at 0x0000024E2583BCA0>
+          -> <module 'importlib' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\__init__.py'>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           |          |           |    |        |        -> 0
+           |          |           |    |        -> None
+           |          |           |    -> 0
+           |          |           -> 'cogs.cog_test'
+           |          -> <function _gcd_import at 0x0000024E25611310>
+           -> <module 'importlib._bootstrap' (frozen)>
+
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\cog_test\__init__.py", line 10, in <module>
+    print(find_item_recipe_tree("AATROX_BATPHONE").recipe.items_required)
+          -> <function find_item_recipe_tree at 0x0000024E54D5E790>
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 65, in find_item_recipe_tree
+    recipe_items[find_item_recipe_tree(key)] = recipe_items_basic[key]
+    |            |                     |       |                  -> 'ENCHANTED_COBBLESTONE'
+    |            |                     |       -> {'ENCHANTED_COBBLESTONE': 70, 'REDSTONE_GENERATOR_8': 1, 'AATROX_PHONE_NUMBER': 1}
+    |            |                     -> 'ENCHANTED_COBBLESTONE'
+    |            -> <function find_item_recipe_tree at 0x0000024E54D5E790>
+    -> {}
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 55, in find_item_recipe_tree
+    name, amount = recipe_data["recipe"][key].split(":")
+                   |                     -> 'A1'
+                   -> {'itemid': 'minecraft:cobblestone', 'displayname': '§aEnchanted Cobblestone', 'nbttag': '{ench:[],HideFlags:254,display:{Lore...
+
+ValueError: not enough values to unpack (expected 2, got 1)
+2021-08-13 12:12:18.947 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:12:19.231 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:12:19.231 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:12:19.235 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:12:23.309 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x000002EE0A300DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002EE07AE6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x000002EE195A5700>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x000002EE195A5790>
+    |      -> <function PubSub.subscribe at 0x000002EE0A332A60>
+    -> <redis.client.PubSub object at 0x000002EE195A3880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x000002EE195A5790>}
+              |    |                             -> <function iterkeys at 0x000002EE0A2DD0D0>
+              |    -> <function PubSub.execute_command at 0x000002EE0A332670>
+              -> <redis.client.PubSub object at 0x000002EE195A3880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x000002EE0A302AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x000002EE195A3880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x000002EE195A3880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x000002EE0A300D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x000002EE0A300E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:12:25.843 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:12:25.871 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:12:25.897 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:13:14.949 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 49, in find_item_recipe_tree
+    recipe_data = json.loads(requests.get(URL_TO_FILES + item_name + ".json").text)
+                  |    |     |        |   |              -> 'REDSTONE_BLOCK'
+                  |    |     |        |   -> 'https://raw.githubusercontent.com/Moulberry/NotEnoughUpdates-REPO/master/items/'
+                  |    |     |        -> <function get at 0x000002EE0AFE8700>
+                  |    |     -> <module 'requests' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\site-packages\\requests\\...
+                  |    -> <function loads at 0x000002EE09AC34C0>
+                  -> <module 'json' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\json\\__init__.py'>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+           |              |           |         -> {}
+           |              |           -> None
+           |              -> 'https://raw.githubusercontent.com/Moulberry/NotEnoughUpdates-REPO/master/items/REDSTONE_BLOCK.json'
+           -> <function request at 0x000002EE0AFD05E0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+           |       |              |           |      -> {'params': None}
+           |       |              |           -> 'https://raw.githubusercontent.com/Moulberry/NotEnoughUpdates-REPO/master/items/REDSTONE_BLOCK.json'
+           |       |              -> 'get'
+           |       -> <function Session.request at 0x000002EE0AFE4E50>
+           -> <requests.sessions.Session object at 0x000002EE0AFCB670>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+           |    |    |       -> {'timeout': None, 'allow_redirects': True, 'verify': True, 'proxies': OrderedDict(), 'stream': False, 'cert': None}
+           |    |    -> <PreparedRequest [GET]>
+           |    -> <function Session.send at 0x000002EE0AFE8310>
+           -> <requests.sessions.Session object at 0x000002EE0AFCB670>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+        |       |    |          -> {'timeout': None, 'verify': True, 'proxies': OrderedDict(), 'stream': False, 'cert': None}
+        |       |    -> <PreparedRequest [GET]>
+        |       -> <function HTTPAdapter.send at 0x000002EE0AFE4790>
+        -> <requests.adapters.HTTPAdapter object at 0x000002EE0A50E1C0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+           |    -> <function HTTPConnectionPool.urlopen at 0x000002EE0A58D1F0>
+           -> <urllib3.connectionpool.HTTPSConnectionPool object at 0x000002EE198206A0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 699, in urlopen
+    httplib_response = self._make_request(
+                       |    -> <function HTTPConnectionPool._make_request at 0x000002EE0A5DAF70>
+                       -> <urllib3.connectionpool.HTTPSConnectionPool object at 0x000002EE198206A0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 382, in _make_request
+    self._validate_conn(conn)
+    |    |              -> <urllib3.connection.HTTPSConnection object at 0x000002EE198CEE20>
+    |    -> <function HTTPSConnectionPool._validate_conn at 0x000002EE0A58D4C0>
+    -> <urllib3.connectionpool.HTTPSConnectionPool object at 0x000002EE198206A0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 1010, in _validate_conn
+    conn.connect()
+    |    -> <function HTTPSConnection.connect at 0x000002EE0A5C8E50>
+    -> <urllib3.connection.HTTPSConnection object at 0x000002EE198CEE20>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 353, in connect
+    conn = self._new_conn()
+           |    -> <function HTTPConnection._new_conn at 0x000002EE0A5C88B0>
+           -> <urllib3.connection.HTTPSConnection object at 0x000002EE198CEE20>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 169, in _new_conn
+    conn = connection.create_connection(
+           |          -> <function create_connection at 0x000002EE0A58F310>
+           -> <module 'urllib3.util.connection' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\site-packa...
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\connection.py", line 86, in create_connection
+    sock.connect(sa)
+    |    |       -> ('185.199.111.133', 443)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket fd=1896, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('10.0.0.248', 1104), raddr...
+
+KeyboardInterrupt
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002EE07AE6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 20, in main
+    cog = importlib.import_module(cog_path)
+          |         |             -> 'cogs.cog_test'
+          |         -> <function import_module at 0x000002EE0735BCA0>
+          -> <module 'importlib' from 'C:\\Users\\Ashvin Ranjan\\AppData\\Local\\Programs\\Python\\Python39\\lib\\importlib\\__init__.py'>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\importlib\__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           |          |           |    |        |        -> 0
+           |          |           |    |        -> None
+           |          |           |    -> 0
+           |          |           -> 'cogs.cog_test'
+           |          -> <function _gcd_import at 0x000002EE07271310>
+           -> <module 'importlib._bootstrap' (frozen)>
+
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 790, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\cog_test\__init__.py", line 10, in <module>
+    print(find_item_recipe_tree("AATROX_BATPHONE").recipe.items_required)
+          -> <function find_item_recipe_tree at 0x000002EE351A3040>
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 67, in find_item_recipe_tree
+    recipe_items[find_item_recipe_tree(key)] = recipe_items_basic[key]
+    |            |                     |       |                  -> 'REDSTONE_GENERATOR_8'
+    |            |                     |       -> {'ENCHANTED_COBBLESTONE': 70, 'REDSTONE_GENERATOR_8': 1, 'AATROX_PHONE_NUMBER': 1}
+    |            |                     -> 'REDSTONE_GENERATOR_8'
+    |            -> <function find_item_recipe_tree at 0x000002EE351A3040>
+    -> {<utils.recipe_tree.recipe.Item object at 0x000002EE198E0130>: 70}
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 67, in find_item_recipe_tree
+    recipe_items[find_item_recipe_tree(key)] = recipe_items_basic[key]
+    |            |                     |       |                  -> 'ENCHANTED_REDSTONE'
+    |            |                     |       -> {'ENCHANTED_REDSTONE': 256, 'REDSTONE_GENERATOR_7': 1}
+    |            |                     -> 'ENCHANTED_REDSTONE'
+    |            -> <function find_item_recipe_tree at 0x000002EE351A3040>
+    -> {}
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 67, in find_item_recipe_tree
+    recipe_items[find_item_recipe_tree(key)] = recipe_items_basic[key]
+    |            |                     |       |                  -> 'REDSTONE'
+    |            |                     |       -> {'REDSTONE': 160}
+    |            |                     -> 'REDSTONE'
+    |            -> <function find_item_recipe_tree at 0x000002EE351A3040>
+    -> {}
+  [Previous line repeated 57 more times]
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\utils\recipe_tree\recipe.py", line 51, in find_item_recipe_tree
+    raise RecipeNotFoundException()
+          -> <class 'utils.recipe_tree.exceptions.RecipeNotFoundException'>
+
+utils.recipe_tree.exceptions.RecipeNotFoundException
+2021-08-13 12:15:25.654 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:15:25.941 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:15:25.941 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:15:25.945 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:15:30.055 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000019B6F4F0DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000019B6CD06280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x0000019B7E795700>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x0000019B7E7959D0>
+    |      -> <function PubSub.subscribe at 0x0000019B6F522A60>
+    -> <redis.client.PubSub object at 0x0000019B7E792880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x0000019B7E7959D0>}
+              |    |                             -> <function iterkeys at 0x0000019B6F4CD0D0>
+              |    -> <function PubSub.execute_command at 0x0000019B6F522670>
+              -> <redis.client.PubSub object at 0x0000019B7E792880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000019B6F4F2AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x0000019B7E792880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x0000019B7E792880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000019B6F4F0D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000019B6F4F0E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:15:32.568 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:15:32.584 | INFO     | __main__:main:24 - successfully loaded cogs.api
+2021-08-13 12:15:32.626 | INFO     | __main__:main:18 - loading cogs.cog_test
+2021-08-13 12:15:37.809 | ERROR    | __main__:main:26 - Error loading cogs.cog_test
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x0000019B6CD06280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    -> <module 'cogs.cog_test' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\cog_test\\__i...
+
+AttributeError: module 'cogs.cog_test' has no attribute 'setup'
+2021-08-13 12:37:07.989 | INFO     | __main__:main:18 - loading cogs.core
+2021-08-13 12:37:08.274 | DEBUG    | cogs.core:mainloop:14 - fetching auctions
+2021-08-13 12:37:08.275 | INFO     | __main__:main:24 - successfully loaded cogs.core
+2021-08-13 12:37:08.277 | INFO     | __main__:main:18 - loading cogs.discord_bot
+2021-08-13 12:37:12.398 | ERROR    | __main__:main:26 - Error loading cogs.discord_bot
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 559, in connect
+    sock = self._connect()
+           |    -> <function Connection._connect at 0x0000028520170DC0>
+           -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 615, in _connect
+    raise err
+          -> ConnectionRefusedError(10061, 'No connection could be made because the target machine actively refused it', None, 10061, None)
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 603, in _connect
+    sock.connect(socket_address)
+    |    |       -> ('127.0.0.1', 6347)
+    |    -> <method 'connect' of '_socket.socket' objects>
+    -> <socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0>
+
+ConnectionRefusedError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 33, in <module>
+    main()
+    -> <function main at 0x000002851D9A6280>
+
+> File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\app.py", line 22, in main
+    cog.setup()
+    |   -> <function setup at 0x000002852F4295E0>
+    -> <module 'cogs.discord_bot' from 'C:\\Users\\Ashvin Ranjan\\Desktop\\skyblock-tools\\skyhouse-backend-python\\cogs\\discord_bo...
+
+  File "C:\Users\Ashvin Ranjan\Desktop\skyblock-tools\skyhouse-backend-python\cogs\discord_bot\__init__.py", line 27, in setup
+    pubsub.subscribe(**{"binflip:profit": bin_flip_cb})
+    |      |                              -> <function bin_flip_cb at 0x000002852F415700>
+    |      -> <function PubSub.subscribe at 0x00000285201A2A60>
+    -> <redis.client.PubSub object at 0x000002852F413880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3580, in subscribe
+    ret_val = self.execute_command('SUBSCRIBE', *iterkeys(new_channels))
+              |    |                             |        -> {'binflip:profit': <function bin_flip_cb at 0x000002852F415700>}
+              |    |                             -> <function iterkeys at 0x000002852014E0D0>
+              |    -> <function PubSub.execute_command at 0x00000285201A2670>
+              -> <redis.client.PubSub object at 0x000002852F413880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\client.py", line 3466, in execute_command
+    self.connection = self.connection_pool.get_connection(
+    |    |            |    |               -> <function ConnectionPool.get_connection at 0x0000028520171AF0>
+    |    |            |    -> ConnectionPool<Connection<host=localhost,port=6347,db=0>>
+    |    |            -> <redis.client.PubSub object at 0x000002852F413880>
+    |    -> None
+    -> <redis.client.PubSub object at 0x000002852F413880>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 1192, in get_connection
+    connection.connect()
+    |          -> <function Connection.connect at 0x0000028520170D30>
+    -> Connection<host=localhost,port=6347,db=0>
+
+  File "C:\Users\Ashvin Ranjan\AppData\Local\Programs\Python\Python39\lib\site-packages\redis\connection.py", line 563, in connect
+    raise ConnectionError(self._error_message(e))
+          |               |    -> <function Connection._error_message at 0x0000028520170E50>
+          |               -> Connection<host=localhost,port=6347,db=0>
+          -> <class 'redis.exceptions.ConnectionError'>
+
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6347. No connection could be made because the target machine actively refused it.
+2021-08-13 12:37:15.608 | INFO     | __main__:main:18 - loading cogs.api
+2021-08-13 12:37:15.624 | INFO     | __main__:main:24 - successfully loaded cogs.api
