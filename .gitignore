@@ -2,3 +2,4 @@ build/
 venv/
 .idea/
 config.json
+__pycache__/
