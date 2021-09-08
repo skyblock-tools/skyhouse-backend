@@ -27,7 +27,7 @@ def setup():
 
     def start():
         from waitress import serve
-        serve(app, port=8000)
+        serve(app, threads=8, port=8000)
 
     thread: threading.Thread = threading.Thread(target=start)
     thread.setDaemon(True)
