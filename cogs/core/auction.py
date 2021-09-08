@@ -48,8 +48,6 @@ def get_internal_name_from_nbt(nbt):
                     internal_name += f";{enchant_name}-{enchants[enchant_name]}"
             if ecs:
                 internal_name += f";{max(ecs.keys())}-{ecs[max(ecs.keys())]}"
-        if ea.get("rarity_upgrades", 0) > 0:
-            internal_name += "[recomb]"
     return internal_name
 
 
