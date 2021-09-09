@@ -47,6 +47,7 @@ default_filter = {
     "max_quantity": math.inf,
     "item_filter": 0,
     "type": TYPE_BIN_AUCTION,
+    "allow_recombed": True,
 }
 
 
@@ -104,5 +105,9 @@ def include(auction, _filter):
 
     not_static_blacklist = (not auction.carpentry) and ((not auction.internal_name.startswith("ENCHANTED_BOOK")) or
                                                              len(auction.internal_name.split(';')) <3)
+    
+    recombed = True
+    if auction.recombed and not filter.allow_recombed:
+        recombed = False
 
-    return price_range and profit and time_ and name and item_filter and quantity and type_ and tier and not_static_blacklist
+    return price_range and profit and time_ and name and item_filter and quantity and type_ and tier and not_static_blacklist and recombed
