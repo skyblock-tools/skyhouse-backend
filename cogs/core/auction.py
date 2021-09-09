@@ -11,14 +11,6 @@ from utils.JsonWrapper import JsonWrapper
 from . import static_cache
 
 
-def is_recombed(nbt):
-    nbt = nbt["tag"]
-    if nbt is not None and "ExtraAttributes" in nbt:
-        if ea.get("rarity_upgrades", 0) > 0:
-            return True
-    return False
-
-
 def get_internal_name_from_nbt(nbt):
     internal_name = ""
     nbt = nbt["tag"]
@@ -121,7 +113,6 @@ def parse_auction(auction: dict) -> JsonWrapper:
         "display_name": get_display_name_from_nbt(_nbt),
         "skyblock_id": get_bare_skyblock_id_from_nbt(_nbt),
         "head_url": get_item_head_url_from_nbt(_nbt) if "SkullOwner" in _nbt["tag"] else "",
-        "is_recombed": is_recombed(_nbt),
     })
     for attr in auction_attrs:
         output[attr] = auction.get(attr, None)
@@ -167,7 +158,6 @@ display_props = [
     "soul",
     "skin",
     "pet",
-    "is_recombed",
 ]
 
 
