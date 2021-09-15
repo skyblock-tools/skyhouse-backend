@@ -7,13 +7,14 @@ NBT_RIGHTBRACKET = ']'
 NBT_LEFTBRACE = '{'
 NBT_RIGHTBRACE = '}'
 NBT_QUOTE = '"'
+NBT_ESCAPE = '\\'
 NBT_WHITESPACE = [' ', '\t', '\b', '\n', '\r']
 NBT_SYNTAX = [NBT_COMMA, NBT_COLON, NBT_LEFTBRACKET, NBT_RIGHTBRACKET,
                NBT_LEFTBRACE, NBT_RIGHTBRACE]
 
 class NBTParseError(Exception):
     def __init__(self, msg):
-        super(msg)
+        super(NBTParseError, self).__init__(msg)
 
 
 def lex_tag(string):
@@ -45,12 +46,16 @@ def lex_string(string):
     else:
         return None, string
 
+    escapes = 0
+
     for c in string:
-        if c == NBT_QUOTE:
-            return nbt_string, string[len(nbt_string)+1:]
+        if c == NBT_QUOTE and nbt_string[-1] == NBT_ESCAPE:
+            nbt_string = nbt_string[0:-1] + c
+            escapes += 1
+        elif c == NBT_QUOTE:
+            return nbt_string, string[len(nbt_string) + escapes + 1:]
         else:
             nbt_string += c
-
     raise NBTParseError('Expected end-of-string quote')
 
 
@@ -179,3 +184,5 @@ def parse(tokens):
 def from_string(string):
     tokens = lex(string)
     return parse(tokens)[0]
+
+print(from_string("{Testing:\"testing\\\"g;aslkdjf\"}"))
