@@ -38,7 +38,7 @@ def get_internal_name_from_nbt(nbt):
             for enchant_name in enchants:
                 internal_name += f";{enchant_name.upper()}-{enchants[enchant_name]}"
         elif enchants:
-            ec_levels = static_cache.get_json_file("prices", "enchant_levels")
+            ec_levels = static_cache.get_json_file_in_drive(".", "enchant_levels")
             ecs = {}
             for enchant_name in enchants:
                 for i, level in enumerate(ec_levels.levels):
