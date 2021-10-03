@@ -49,7 +49,7 @@ def lex_string(string):
     escapes = 0
 
     for c in string:
-        if c == NBT_QUOTE and nbt_string[-1] == NBT_ESCAPE:
+        if c == NBT_QUOTE and len(nbt_string) != 0 and nbt_string[-1] == NBT_ESCAPE:
             nbt_string = nbt_string[0:-1] + c
             escapes += 1
         elif c == NBT_QUOTE:
@@ -71,6 +71,9 @@ def lex_number(string):
             break
 
     rest = string[len(nbt_number):]
+
+    if rest[0] == "b":
+        rest = rest[1:]
 
     if not len(nbt_number):
         return None, string
