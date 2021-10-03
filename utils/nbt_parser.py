@@ -166,10 +166,12 @@ def parse_object(tokens):
         t = tokens[0]
         if t == NBT_RIGHTBRACE:
             return json_object, tokens[1:]
-        elif t != NBT_COMMA:
+        if t != NBT_COMMA:
             raise Exception('Expected comma after pair in object, got: {}'.format(t))
 
         tokens = tokens[1:]
+        if tokens[0] == NBT_RIGHTBRACE:
+            return json_object, tokens[1:]
 
     raise Exception('Expected end-of-object brace')
 
@@ -187,5 +189,3 @@ def parse(tokens):
 def from_string(string):
     tokens = lex(string)
     return parse(tokens)[0]
-
-print(from_string("{Testing:\"testing\\\"g;aslkdjf\"}"))
