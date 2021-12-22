@@ -1,4 +1,5 @@
 import multiprocessing.pool
+import threading
 import time
 
 import json
@@ -10,6 +11,7 @@ import runtimeConfig
 from utils import misc
 from utils.JsonWrapper import JsonWrapper
 from .auction import parse_auction, parse_ended_auction
+from .craftflip_engine import find_craftflips
 
 auction_base_url = "https://api.hypixel.net/skyblock/auctions"
 last_loop_run = 0
@@ -18,7 +20,7 @@ last_loop_run = 0
 def process_auction(x):
     auction_obj = parse_auction(x)
     mapping = misc.redis_json_dump(auction_obj)
-    return [auction_obj, mapping]
+    return (auction_obj, mapping)
 
 
 def process_ended_auction(x):
@@ -73,6 +75,7 @@ def fetch_all_auctions() -> dict:
     pipeline = runtimeConfig.redis.pipeline()
 
     existing_auctions = set(runtimeConfig.redis.keys("auction:*"))
+
     existing_bins = set(runtimeConfig.redis.keys("bin:*"))
 
     existing_auction_uuids = set([z.split(':')[2] for z in existing_auctions])
@@ -89,6 +92,10 @@ def fetch_all_auctions() -> dict:
 
     logger.debug(f"processing, discarded {len(auctions) - len(to_process)} existing entries")
     processed = multiprocessing_pool.map(process_auction, to_process)
+
+    processed1 = multiprocessing_pool.map(process_auction, auctions)
+
+    threading.Thread(target=find_craftflips, args=[processed1]).start()
 
     total = len(processed)
     delete_pipeline = runtimeConfig.redis.pipeline()
