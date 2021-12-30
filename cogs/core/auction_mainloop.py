@@ -14,7 +14,10 @@ from .auction import parse_auction, parse_ended_auction
 from .craftflip_engine import find_craftflips
 
 auction_base_url = "https://api.hypixel.net/skyblock/auctions"
+bazaar_base_url = "https://api.hypixel.net/skyblock/bazaar"
 last_loop_run = 0
+
+bazaar_prices_glob = {}
 
 
 def process_auction(x):
@@ -29,11 +32,25 @@ def process_ended_auction(x):
 
 multiprocessing_pool = multiprocessing.pool.Pool(processes=10)
 
+def get_bazaar_data():
+    global bazaar_prices_glob
+    parsed_json = requests.get(bazaar_base_url).json()
+    bazaar_prices = {}
+    for product in parsed_json["products"]:
+        sbname = str(product)
+        neuname = sbname.replace(":",";")
+        bazaar_prices[neuname] = parsed_json["products"][sbname]["quick_status"]["buyPrice"]
+    bazaar_prices_glob.clear()
+    bazaar_prices_glob = bazaar_prices.copy()
+    logger.info("got bazaar data")
+
 
 def fetch_all_auctions() -> dict:
     global last_loop_run
     start = time.time()
     pages = []
+
+    threading.Thread(target=get_bazaar_data).start()
 
     def fetch_page(url=auction_base_url, page: int = None):
         nonlocal last_updated
@@ -95,7 +112,7 @@ def fetch_all_auctions() -> dict:
 
     processed1 = multiprocessing_pool.map(process_auction, auctions)
 
-    threading.Thread(target=find_craftflips, args=[processed1]).start()
+    threading.Thread(target=find_craftflips, args=[processed1, bazaar_prices_glob]).start()
 
     total = len(processed)
     delete_pipeline = runtimeConfig.redis.pipeline()

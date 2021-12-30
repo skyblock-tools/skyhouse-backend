@@ -2,7 +2,6 @@ import os
 import time
 import json
 
-
 from loguru import logger
 
 items_and_crafts = {}
@@ -66,10 +65,10 @@ def load_items():
                         unwrapped_crafts[item["internalname"]].append(new_recipe)
                     else:
                         unwrapped_crafts[item["internalname"]] = [new_recipe]
-    logger.info(f"successfully generated "+str(len(unwrapped_crafts))+" crafts")
+    logger.info(f"successfully generated " + str(len(unwrapped_crafts)) + " crafts")
 
 
-def find_craftflips(aucs: map):
+def find_craftflips(aucs: map, bazaar_prices: dict):
     global auction_groups_by_neu_internal_name
     global craftflips
     start = time.time()
@@ -78,13 +77,14 @@ def find_craftflips(aucs: map):
     for key, value in auction_groups_by_neu_internal_name.items():
         if key in unwrapped_crafts:
             for craft in unwrapped_crafts[key]:
-                evaluate_craft(craft, value[0]["price"], key)
+                evaluate_craft(craft, value[0]["price"], key, bazaar_prices)
     end = time.time()
     logger.info(f"found {len(craftflipsLive)} craftflips in {round(end - start)} seconds")
     craftflips = craftflipsLive.copy()
     craftflipsLive.clear()
 
-def evaluate_craft(craft: list, price_to_beat: int, result: str):
+
+def evaluate_craft(craft: list, price_to_beat: int, result: str, bazaar_prices: dict):
     required_materials_for_craft = {}
     for craftitem in craft:
         if type(craftitem) is list:
@@ -94,7 +94,8 @@ def evaluate_craft(craft: list, price_to_beat: int, result: str):
                     internal_name = a[0]
                     quantity = int(a[1])
                     if internal_name in required_materials_for_craft:
-                        required_materials_for_craft[internal_name] = required_materials_for_craft[internal_name] + quantity
+                        required_materials_for_craft[internal_name] = required_materials_for_craft[
+                                                                          internal_name] + quantity
                     else:
                         required_materials_for_craft[internal_name] = quantity
         else:
@@ -114,13 +115,19 @@ def evaluate_craft(craft: list, price_to_beat: int, result: str):
                 for idx in range(value):
                     totalcost += auction_group[idx]["price"]
             else:
+                if key in bazaar_prices:
+                    totalcost += bazaar_prices[key] * value
+                else:
+                    totalcost = 2147483647
+                    break
+        else:
+            if key in bazaar_prices:
+                totalcost += bazaar_prices[key] * value
+            else:
                 totalcost = 2147483647
                 break
-        else:
-            totalcost = 2147483647
-            break
-    profit = int(price_to_beat*0.98) - totalcost
-    if profit > 0:
+    profit = int(price_to_beat * 0.98) - totalcost
+    if profit > 10000000:
         craftflip = {"profit": profit,
                      "cost_of_craft": totalcost,
                      "resell_price": price_to_beat,
