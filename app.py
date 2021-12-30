@@ -1,5 +1,4 @@
 import importlib
-import os
 
 import loguru
 
@@ -16,6 +15,7 @@ configReader.read_config(CONFIG_NAME)
 @loguru.logger.catch(Exception)
 def main():
     _logging.init_logging()
+    logger.info("⌂ Skyhouse Backend v1.1")
     runtimeConfig.loaded_cogs = {}
     for cog_path in runtimeConfig.initial_cogs:
         logger.info(f"loading {cog_path}")
