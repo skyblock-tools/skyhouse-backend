@@ -4,4 +4,3 @@ venv/
 config.json
 __pycache__/
 skyhouse.log
-items/
