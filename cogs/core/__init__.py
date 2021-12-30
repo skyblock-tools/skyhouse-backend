@@ -4,6 +4,7 @@ import time
 from loguru import logger
 
 import runtimeConfig
+from .craftflip_engine import load_items
 from .svc import _redis, mongodb
 from .auction_mainloop import fetch_all_auctions
 from .profit import find_flips_in_thread
@@ -34,6 +35,8 @@ def setup():
 
     mongodb.setup()
     logger.info("MongoDB connection established")
+
+    load_items()
 
     fetch_thread: threading.Thread = threading.Thread(target=fetch_mainloop)
     fetch_thread.setDaemon(True)
