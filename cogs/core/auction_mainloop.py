@@ -1,5 +1,4 @@
 import multiprocessing.pool
-import threading
 import time
 
 import json
@@ -11,19 +10,15 @@ import runtimeConfig
 from utils import misc
 from utils.JsonWrapper import JsonWrapper
 from .auction import parse_auction, parse_ended_auction
-from .craftflip_engine import find_craftflips
 
 auction_base_url = "https://api.hypixel.net/skyblock/auctions"
-bazaar_base_url = "https://api.hypixel.net/skyblock/bazaar"
 last_loop_run = 0
-
-bazaar_prices_glob = {}
 
 
 def process_auction(x):
     auction_obj = parse_auction(x)
     mapping = misc.redis_json_dump(auction_obj)
-    return (auction_obj, mapping)
+    return [auction_obj, mapping]
 
 
 def process_ended_auction(x):
@@ -32,25 +27,11 @@ def process_ended_auction(x):
 
 multiprocessing_pool = multiprocessing.pool.Pool(processes=10)
 
-def get_bazaar_data():
-    global bazaar_prices_glob
-    parsed_json = requests.get(bazaar_base_url).json()
-    bazaar_prices = {}
-    for product in parsed_json["products"]:
-        sbname = str(product)
-        neuname = sbname.replace(":",";")
-        bazaar_prices[neuname] = parsed_json["products"][sbname]["quick_status"]["buyPrice"]
-    bazaar_prices_glob.clear()
-    bazaar_prices_glob = bazaar_prices.copy()
-    logger.info("got bazaar data")
-
 
 def fetch_all_auctions() -> dict:
     global last_loop_run
     start = time.time()
     pages = []
-
-    threading.Thread(target=get_bazaar_data).start()
 
     def fetch_page(url=auction_base_url, page: int = None):
         nonlocal last_updated
@@ -92,7 +73,6 @@ def fetch_all_auctions() -> dict:
     pipeline = runtimeConfig.redis.pipeline()
 
     existing_auctions = set(runtimeConfig.redis.keys("auction:*"))
-
     existing_bins = set(runtimeConfig.redis.keys("bin:*"))
 
     existing_auction_uuids = set([z.split(':')[2] for z in existing_auctions])
@@ -109,10 +89,6 @@ def fetch_all_auctions() -> dict:
 
     logger.debug(f"processing, discarded {len(auctions) - len(to_process)} existing entries")
     processed = multiprocessing_pool.map(process_auction, to_process)
-
-    processed1 = multiprocessing_pool.map(process_auction, auctions)
-
-    threading.Thread(target=find_craftflips, args=[processed1, bazaar_prices_glob]).start()
 
     total = len(processed)
     delete_pipeline = runtimeConfig.redis.pipeline()
