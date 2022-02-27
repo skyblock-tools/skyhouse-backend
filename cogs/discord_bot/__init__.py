@@ -31,6 +31,7 @@ def flip_cb(message: dict):
     embed.add_embed_field(name="» Item", value=f"`{info.item_name}`", inline=False)
     embed.add_embed_field(name="» Rarity", value=f"`{info.tier}`", inline=False)
     embed.add_embed_field(name="» Seller", value=f"```\n/viewauction {info.uuid}\n```", inline=False)
+    embed.set_footer(text = "https://discord.gg/kPGE84Gf67")
 
     for webhook in webhooks[_type]:
         webhook["webhook"].add_embed(embed)
