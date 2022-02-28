@@ -73,6 +73,8 @@ def parse_filter(json_: dict, priv=True, level=1) -> JsonWrapper:
             output[key] = default_filter[key]
     output["item_filter"] = parse_item_filter(output["item_filter"]) if priv else []
     if level != 10:
+        if priv:
+            output['limit'] = 200 if output['limit'] == 100 else output['limit']
         output['limit'] = min(output['limit'], 200 if priv else 100)
     return JsonWrapper.from_dict(output)
 
