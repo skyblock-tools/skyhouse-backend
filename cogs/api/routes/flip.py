@@ -21,7 +21,7 @@ def setup(app: flask.Flask):
                                               level=session.privilege_level)
         _filter.parse_str_ints()
         if session.privilege_level < 2:
-            _filter.bin_max_profit = 500_000
+            _filter.bin_max_profit = 1_000_000
         keys = runtimeConfig.redis.keys("*flip:*")
         pipeline = runtimeConfig.redis.pipeline()
         _flips = {}
