@@ -1,3 +1,4 @@
+import random
 import time
 
 import runtimeConfig
@@ -7,6 +8,15 @@ import discord_webhook
 
 webhooks = {}
 default_filter = auction_filter.parse_filter({})
+
+footers = [
+    "Bot creators' server: https://discord.gg/kPGE84Gf67",
+    "Check out our other project: https://skyblock.tools",
+    "Skyhouse: https://discord.gg/kPGE84Gf67",
+    "Get BIN->BIN flips as well: https://skyblock.tools",
+    "Get flips right in your game: https://discord.gg/kPGE84Gf67",
+    "More flips: https://skyblock.tools",
+]
 
 
 def flip_cb(message: dict):
@@ -31,7 +41,7 @@ def flip_cb(message: dict):
     embed.add_embed_field(name="» Item", value=f"`{info.item_name}`", inline=False)
     embed.add_embed_field(name="» Rarity", value=f"`{info.tier}`", inline=False)
     embed.add_embed_field(name="» Seller", value=f"```\n/viewauction {info.uuid}\n```", inline=False)
-    embed.set_footer(text = "https://discord.gg/kPGE84Gf67")
+    embed.set_footer(text=random.choice(footers))
 
     for webhook in webhooks[_type]:
         webhook["webhook"].add_embed(embed)
