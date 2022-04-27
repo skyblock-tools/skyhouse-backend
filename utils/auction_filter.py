@@ -43,7 +43,7 @@ default_filter = {
     "sort": 1,
     "serve_nbt": False,
     "limit": 100,
-    "min_quantity": 5,
+    "min_quantity": 7,
     "max_quantity": math.inf,
     "item_filter": 0,
     "type": TYPE_BIN_AUCTION,
