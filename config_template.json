@@ -1,9 +1,9 @@
 {
-  "mongodb_connection_string": "mongodb://127.0.0.1:27017",
+  "mongodb_connection_string": "mongodb://skyhouse:<database_password>@%2Fetc%2Fsock%2Fmongodb-27017.sock",
   "mongodb_database_name": "skyhouse",
   "mongodb_user_collection_name": "users",
   "redis_options": {
-    "unix_socket_path": "/etc/redis/redis.sock",
+    "unix_socket_path": "/etc/sock/redis.sock",
     "host": "localhost",
     "port": 6347
   },

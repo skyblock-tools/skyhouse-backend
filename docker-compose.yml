@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  redis:
+    container_name: skyhouse-redis
+    image: redis:latest
+    volumes:
+      - ./db/redis-data:/usr/local/var/lib/redis
+      - ./db/sock:/data/sock
+      - ./db/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  mongo:
+    container_name: skyhouse-mongo
+    image: mongo
+    env_file:
+      - mongo_credentials.env
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db/mongo-data:/data/db
+      - ./db/mongod.conf:/etc/mongo/mongod.conf
+      - ./db/sock:/tmp/sock
+      - ./scripts/mongo_init.js:/docker-entrypoint-initdb.d/mongo_init.js
+    command: mongod --config /etc/mongo/mongod.conf
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./db/sock:/etc/sock
+    links:
+      - redis
+      - mongo
+    ports:
+      - "8000:8000"
+
