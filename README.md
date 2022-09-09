@@ -1,5 +1,5 @@
 
-# skyhouse-backend-python
+# skyhouse-backend
 
 ## Running (docker)
 - Install Docker: `curl -sSL https://get.docker.com/ | sh`
